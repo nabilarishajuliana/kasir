@@ -80,7 +80,7 @@ const Login = ({ navigation }) => {
             borderRadius: 5,
             alignItems: 'center',
           }}
-          onPress={() => navigation.navigate('Dashboard')}
+          onPress={() => navigation.navigate('List')}
         >
           {isLoading ? (
             <ActivityIndicator color="white" />
