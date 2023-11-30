@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { MenuOutlined } from '@ant-design/icons';
+import {NavigationProp, useNavigation} from "@react-navigation/native";
+
 // Import komponen atau library tambahan yang dibutuhkan di React Native
 
 const menuData = {
   KASIR: [
-    { title: "Menu" },
-    { title: "List Transaksi", src: "book", href: "/kasir/menu" },
-    { title: "Setting", src: "history", href: "/kasir/history" },
+    { title: "Menu", nav: "Dashboard" },
+    { title: "List Transaksi", nav: "List" },
+    { title: "Setting", nav: "history" },
   ],
   // ... Definisikan menu untuk role ADMIN, MANAGER, dll.
 };
 
 const Sidebar = () => {
+  const {navigate}    = useNavigation<NavigationProp<any>>();
+
   const [open, setOpen] = useState(true);
 
   const handleLogout = () => {
@@ -61,6 +65,7 @@ const Sidebar = () => {
               // borderBottomWidth: 1,
               // borderBottomColor: "lightgrey", // Sesuaikan dengan warna yang diinginkan
             }}
+            onPress={() => navigate(menu.nav)}
             // Implementasikan navigasi ke halaman yang sesuai saat menu ditekan
           >
             {/* <Image

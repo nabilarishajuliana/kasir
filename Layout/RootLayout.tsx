@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { View, ScrollView, StyleSheet,TouchableOpacity} from "react-native";
+import { View, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import { FAB } from "react-native-paper";
-import { BottomSheet, ListItem,Button } from "@rneui/themed";
+import { BottomSheet, ListItem, Button } from "@rneui/themed";
 
 const RootLayout = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -20,11 +20,7 @@ const RootLayout = ({ children }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <FAB
-        icon="plus"
-        style={styles.fab}
-        onPress={() => setIsVisible(true)}  
-      />
+      <FAB icon="plus" style={styles.fab} onPress={() => setIsVisible(true)} />
       {/* <TouchableOpacity style={styles.fab} onPress={() => setIsVisible(true)} >
 
       <FAB icon="plus"/>
@@ -34,19 +30,19 @@ const RootLayout = ({ children }) => {
       onPress={() => setIsVisible(true)}
     //   buttonStyle={styles.button}
     /> */}
-       <BottomSheet modalProps={{}} isVisible={isVisible}>
-      {list.map((l, i) => (
-        <ListItem
-          key={i}
-          containerStyle={l.containerStyle}
-          onPress={l.onPress}
-        >
-          <ListItem.Content>
-            <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
-          </ListItem.Content>
-        </ListItem>
-      ))}
-    </BottomSheet>
+      <BottomSheet modalProps={{}} isVisible={isVisible}>
+        {list.map((l, i) => (
+          <ListItem
+            key={i}
+            containerStyle={l.containerStyle}
+            onPress={l.onPress}
+          >
+            <ListItem.Content>
+              <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        ))}
+      </BottomSheet>
       <View style={styles.container}>
         <View style={styles.sidebar}>
           <Sidebar />
@@ -84,9 +80,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: 2, // Memberikan zIndex agar tombol berada di atas konten lainnya
-
   },
-
 });
 
 export default RootLayout;
