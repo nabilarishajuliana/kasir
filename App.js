@@ -16,7 +16,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Login} />
         <Stack.Screen name="Dashboard" component={DashboardScreen} />
-        <Stack.Screen name="Transaksi" component={ListTransaksi} />
+        <Stack.Screen name="List" component={ListTransaksi} />
       </Stack.Navigator>
     </NavigationContainer>
     // <SafeAreaView style={styles.safeArea}>

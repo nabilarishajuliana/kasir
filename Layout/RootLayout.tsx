@@ -1,3 +1,59 @@
+import React from "react";
+import { View, ScrollView, StyleSheet } from "react-native";
+import Sidebar from "../Components/Sidebar";
+import Header from "../Components/Header";
+import { FAB } from "react-native-paper";
+import { BottomSheet } from '@rneui/themed';
+
+const RootLayout = ({ children }) => {
+  return (
+    <View style={{ flex: 1 }}>
+      <FAB
+        icon="plus"
+        style={styles.fab}
+        onPress={() => console.log("Pressed")}
+      />
+      <View style={styles.container}>
+        <View style={styles.sidebar}>
+          <Sidebar />
+        </View>
+        <ScrollView style={styles.content}>
+          <Header />
+          <View>{children}</View>
+        </ScrollView>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  sidebar: {
+    flex: 1,
+    position: "absolute",
+    left: 0,
+    top: 0,
+    bottom: 0,
+    zIndex: 1, // Memberikan zIndex untuk memastikan Sidebar muncul di atas konten lain
+    // Styling tambahan sesuai kebutuhan
+  },
+  content: {
+    flex: 3,
+    // Styling tambahan sesuai kebutuhan
+  },
+  fab: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
+});
+
+export default RootLayout;
+
 // import React, { useEffect, useState } from 'react';
 // import { View, ScrollView, Text } from 'react-native';
 // import Sidebar from '../Components/Sidebar';
@@ -80,47 +136,3 @@
 // };
 
 // export default RootLayout;
-
-import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
-import Sidebar from '../Components/Sidebar';
-import Header from '../Components/Header';
-
-const RootLayout = ({ children }) => {
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <View style={styles.sidebar}>
-          <Sidebar />
-        </View>
-        <ScrollView style={styles.content}>
-          <Header />
-          <View>{children}</View>
-        </ScrollView>
-      </View>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  sidebar: {
-    flex: 1,
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    bottom: 0,
-    zIndex: 1, // Memberikan zIndex untuk memastikan Sidebar muncul di atas konten lain
-    // Styling tambahan sesuai kebutuhan
-  },
-  content: {
-    flex: 3,
-    // Styling tambahan sesuai kebutuhan
-  },
-});
-
-export default RootLayout;
-
