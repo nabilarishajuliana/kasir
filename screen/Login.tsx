@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {NavigationProp, useNavigation} from "@react-navigation/native";
+
 // Additional dependencies in React Native may need different libraries or implementation
 
-const Login = () => {
+const Login = ({ navigation }) => {
+  // const {navigate}    = useNavigation<NavigationProp<any>>();
+
   const [data, setData] = useState({
     username: '',
     password: '',
@@ -76,7 +80,7 @@ const Login = () => {
             borderRadius: 5,
             alignItems: 'center',
           }}
-        //   onPress={handleSubmit}
+          onPress={() => navigation.navigate('Dashboard')}
         >
           {isLoading ? (
             <ActivityIndicator color="white" />

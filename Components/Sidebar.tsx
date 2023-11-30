@@ -1,29 +1,18 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+import { MenuOutlined } from '@ant-design/icons';
 // Import komponen atau library tambahan yang dibutuhkan di React Native
 
 const menuData = {
   KASIR: [
-    {
-      title: "Dashboard",
-      icon: require("../assets/icons/home.png"),
-      route: "/",
-    },
-    {
-      title: "Menu",
-      icon: require("../assets/icons/book.png"),
-      route: "/kasir/menu",
-    },
-    {
-      title: "History",
-      icon: require("../assets/icons/history.png"),
-      route: "/kasir/history",
-    },
+    { title: "Menu" },
+    { title: "List Transaksi", src: "book", href: "/kasir/menu" },
+    { title: "Setting", src: "history", href: "/kasir/history" },
   ],
   // ... Definisikan menu untuk role ADMIN, MANAGER, dll.
 };
 
-const Sidebar = ({ role }) => {
+const Sidebar = () => {
   const [open, setOpen] = useState(true);
 
   const handleLogout = () => {
@@ -69,15 +58,15 @@ const Sidebar = ({ role }) => {
               flexDirection: "row",
               alignItems: "center",
               paddingVertical: 10,
-              borderBottomWidth: 1,
-              borderBottomColor: "lightgrey", // Sesuaikan dengan warna yang diinginkan
+              // borderBottomWidth: 1,
+              // borderBottomColor: "lightgrey", // Sesuaikan dengan warna yang diinginkan
             }}
             // Implementasikan navigasi ke halaman yang sesuai saat menu ditekan
           >
-            <Image
+            {/* <Image
               source={menu.icon}
               style={{ width: 20, height: 20, marginRight: 10 }}
-            />
+            /> */}
             {open && <Text>{menu.title}</Text>}
           </TouchableOpacity>
         ))}
@@ -92,10 +81,12 @@ const Sidebar = ({ role }) => {
         }}
         onPress={handleLogout}
       >
-        <Image
+        {/* <MenuOutlined           
+        style={{ width: 20, height: 20, marginRight: 10 }}/> */}
+        {/* <Image
           source={require("../assets/icons/logout.png")}
           style={{ width: 20, height: 20, marginRight: 10 }}
-        />
+        /> */}
         {open && <Text>Logout</Text>}
       </TouchableOpacity>
     </View>
