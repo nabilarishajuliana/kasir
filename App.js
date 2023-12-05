@@ -7,17 +7,29 @@ import Login from "./screen/Login";
 import DashboardScreen from "./screen/Dashboard";
 import ListTransaksi from "./screen/ListTransaksi";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { OrientationLock } from 'expo-screen-orientation';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  // Mengatur orientasi layar ke landscape
+  // React.useEffect(() => {
+  //   async function changeScreenOrientation() {
+  //     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_LEFT);
+  //   }
+    
+  //   changeScreenOrientation();
+  // }, []);
+
   return (
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={Login} />
           <Stack.Screen name="Dashboard" component={DashboardScreen} />
-          <Stack.Screen name="List" component={ListTransaksi} />
+          <Stack.Screen name="List" component={ListTransaksi}/>
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

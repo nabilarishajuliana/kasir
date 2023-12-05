@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { View, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { View, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
 import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import { FAB } from "react-native-paper";
 import { BottomSheet, ListItem, Button } from "@rneui/themed";
+import Sidebarnew from "../Components/Drawer";
 
 const RootLayout = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -69,6 +70,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 1, // Memberikan zIndex untuk memastikan Sidebar muncul di atas konten lain
     // Styling tambahan sesuai kebutuhan
+    // width: 200, // Tentukan lebar sidebar di sini
   },
   content: {
     flex: 3,

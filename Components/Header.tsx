@@ -1,7 +1,23 @@
-import React from 'react';
+import React, {useEffect,useState} from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Header = () => {
+  const [nama, setNama] = useState('');
+
+  useEffect(() => {
+    // Mengambil data dari AsyncStorage saat komponen di-mount
+    AsyncStorage.getItem('username')
+      .then(value => {
+        if (value !== null) {
+          setNama(value); // Menyimpan nilai ke state
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
   return (
     <View style={styles.headerContainer}>
       <View style={styles.userInfo}>
@@ -14,7 +30,7 @@ const Header = () => {
           style={styles.profileImage}
         />
         <View style={styles.textContainer}>
-          <Text style={styles.userName}>nama</Text>
+          <Text style={styles.userName}>{nama}</Text>
           <Text style={styles.userRole}>kasir</Text>
         </View>
       </View>
