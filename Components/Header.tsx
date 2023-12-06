@@ -1,6 +1,7 @@
-import React, {useEffect,useState} from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import React, {useEffect,useState,} from 'react';
+import { View, Text, Image, StyleSheet,Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { Button } from 'antd';
 
 
 const Header = () => {
@@ -20,6 +21,7 @@ const Header = () => {
   }, []);
   return (
     <View style={styles.headerContainer}>
+
       <View style={styles.userInfo}>
         <Image
           source={{

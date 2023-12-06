@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { MenuOutlined } from '@ant-design/icons';
 import {NavigationProp, useNavigation} from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 // Import komponen atau library tambahan yang dibutuhkan di React Native
 
@@ -9,19 +11,28 @@ const menuData = {
   KASIR: [
     { title: "Menu", nav: "Dashboard" },
     { title: "List Transaksi", nav: "List" },
-    { title: "Setting", nav: "history" },
+    
   ],
   // ... Definisikan menu untuk role ADMIN, MANAGER, dll.
 };
 
 const Sidebar = () => {
+  
+
   const {navigate}    = useNavigation<NavigationProp<any>>();
 
   const [open, setOpen] = useState(true);
 
-  const handleLogout = () => {
-    // Implementasi logout di sini
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.clear();
+      navigate("Home" as any);
+    } catch (error) {
+      // Tangani kesalahan jika ada
+      console.error('Error clearing AsyncStorage:', error);
+    }
   };
+  
 
   const menus = menuData["KASIR"];
   return (
@@ -78,6 +89,7 @@ const Sidebar = () => {
       </View>
       <TouchableOpacity
         style={{
+          marginTop: 10,
           flexDirection: "row",
           alignItems: "center",
           paddingVertical: 10,

@@ -27,9 +27,13 @@ export default function App() {
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={Login} />
-          <Stack.Screen name="Dashboard" component={DashboardScreen} />
-          <Stack.Screen name="List" component={ListTransaksi}/>
+         <Stack.Screen name="Home" component={Login} />  
+          <Stack.Screen name="Dashboard" component={DashboardScreen} options={{
+            headerBackVisible: false, // Menghilangkan tombol kembali di header
+          }}/>
+          <Stack.Screen name="List" component={ListTransaksi} options={{
+            headerBackVisible: false, // Menghilangkan tombol kembali di header
+          }} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

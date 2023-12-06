@@ -7,6 +7,7 @@ import { BottomSheet, ListItem, Button } from "@rneui/themed";
 import Sidebarnew from "../Components/Drawer";
 
 const RootLayout = ({ children }) => {
+  
   const [isVisible, setIsVisible] = useState(false);
   const list = [
     { title: "List Item 1" },
