@@ -16,13 +16,13 @@ const Stack = createNativeStackNavigator();
 export default function App() {
 
   // Mengatur orientasi layar ke landscape
-  React.useEffect(() => {
-    async function changeScreenOrientation() {
-      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_LEFT);
-    }
+  // React.useEffect(() => {
+  //   async function changeScreenOrientation() {
+  //     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_LEFT);
+  //   }
     
-    changeScreenOrientation();
-  }, []);
+  //   changeScreenOrientation();
+  // }, []);
 
   return (
     // <SafeAreaProvider>
