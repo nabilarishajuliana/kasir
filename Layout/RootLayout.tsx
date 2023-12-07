@@ -4,7 +4,7 @@ import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import { FAB } from "react-native-paper";
 import { BottomSheet, ListItem, Button } from "@rneui/themed";
-import Sidebarnew from "../Components/Drawer";
+import {Drawerside} from "../Nav/Navigasi";
 
 const RootLayout = ({ children }) => {
   
@@ -23,15 +23,7 @@ const RootLayout = ({ children }) => {
   return (
     <View style={{ flex: 1 }}>
       <FAB icon="plus" style={styles.fab} onPress={() => setIsVisible(true)} />
-      {/* <TouchableOpacity style={styles.fab} onPress={() => setIsVisible(true)} >
-
-      <FAB icon="plus"/>
-      </TouchableOpacity> */}
-      {/* <Button
-      title="Open Bottom Sheet"
-      onPress={() => setIsVisible(true)}
-    //   buttonStyle={styles.button}
-    /> */}
+      
       <BottomSheet modalProps={{}} isVisible={isVisible}>
         {list.map((l, i) => (
           <ListItem
@@ -49,6 +41,7 @@ const RootLayout = ({ children }) => {
         <View style={styles.sidebar}>
           <Sidebar />
         </View>
+        {/* <Drawerside/> */}
         <ScrollView style={styles.content}>
           <Header />
           <View>{children}</View>

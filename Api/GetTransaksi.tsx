@@ -1,10 +1,11 @@
 import * as React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { IMenu } from '../types/menu-types'; // Sesuaikan dengan struktur folder Anda
+import { ITransaksi } from '../types/transaksi-types';
 
 
-const getTransaksi= async (): Promise<IMenu[]> => {
+const getTransaksi= async () => {
   try {
+    // const [transaksiData, setTransaksiData] = React.useState<ITransaksi[]>([]);
     const token     = await AsyncStorage.getItem('token');
     // let controller  = new AbortController()
     // hi cantikk <3
@@ -22,7 +23,6 @@ const getTransaksi= async (): Promise<IMenu[]> => {
     }
 
 const responseData = await response.json();
- 
 
   return responseData;
     
