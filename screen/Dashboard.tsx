@@ -146,7 +146,7 @@ const DashboardScreen = () => {
   return (
     <RootLayout>
       <View style={styles.container} >
-      <Text style={styles.heading}>TOP Menu</Text>
+      <Text style={styles.heading}>List Menu</Text>
       <ScrollView>
         <View style={orientation === 'portrait' ? styles.menuContainerPortrait : styles.menuContainerLandscape}>
           {dataMenu.map((menu: IMenu) => (
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'blue',
+    color: 'black',
     marginTop: 20,
     marginBottom: 10,
     textAlign: 'center',
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', // Jika landscape, gunakan dua kolom
     flexWrap: 'wrap',
     justifyContent: 'space-between', 
-    marginBottom: 100,
+    marginBottom: 200,
   },
 });
 

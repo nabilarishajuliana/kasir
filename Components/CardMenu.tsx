@@ -43,19 +43,32 @@ const CardMenu: React.FC<Props> = ({ menu }: Props) => {
               menu.gambar,
             }}
           />
-          <Text style={{ marginBottom: 10 }}>
+          <Text style={{ marginBottom: 30,marginTop:10 }}>
           {menu.deskripsi}
           </Text>
-          <Button
+          {/* <Button
             
-            buttonStyle={{
+            style={{
               borderRadius: 0,
               marginLeft: 0,
               marginRight: 0,
               marginBottom: 0,
             }}
             title="ADD "
-          />
+          /> */}
+          <TouchableOpacity>
+            <Text  style={{
+              backgroundColor: 'orange',
+              paddingVertical: 8,
+              paddingHorizontal: 16,
+              borderRadius: 8,
+              color: 'white', // Untuk mengatur warna teks menjadi putih
+              fontWeight: '600', // Gunakan '600' untuk semibold
+              textAlign: 'center', // Untuk meletakkan teks di tengah
+            }}>
+              ADD
+            </Text>
+          </TouchableOpacity>
         </Card>
       {/* <View style={styles.imageContainer}>
         <Image

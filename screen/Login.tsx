@@ -100,7 +100,6 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <ScrollView>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={{ backgroundColor: "white", padding: 20, borderRadius: 10 }}>
         <View style={{ marginBottom: 20 }}>
@@ -139,7 +138,7 @@ const Login = ({ navigation }) => {
         </View>
         <TouchableOpacity
           style={{
-            backgroundColor: "blue",
+            backgroundColor: "orange",
             padding: 15,
             borderRadius: 5,
             alignItems: "center",
@@ -156,7 +155,6 @@ const Login = ({ navigation }) => {
       </View>
       <Text>Develop on 2 DAY</Text>
     </View>
-    </ScrollView>
     
   );
 };

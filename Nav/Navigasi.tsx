@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNavigationContainerRef } from "@react-navigation/native";
 import Login from "../screen/Login";
 import DashboardScreen from "../screen/Dashboard";
 import ListTransaksi from "../screen/ListTransaksi";
@@ -83,3 +84,5 @@ const Drawerside = () => {
   
   
   export  {Drawerside};
+
+

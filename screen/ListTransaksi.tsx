@@ -1,4 +1,12 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  Modal,
+  Alert,
+} from "react-native";
 import { getTransaksi } from "../Api/GetTransaksi";
 import { ITransaksi } from "../types/transaksi-types";
 import { WebView } from "react-native-webview";
@@ -6,7 +14,7 @@ import RootLayout from "../Layout/RootLayout";
 import * as React from "react";
 // import { Table, TableWrapper, Row,Cell  } from "react-native-table-component";
 import { DataTable } from "react-native-paper";
-import { Col, Row, Grid } from "react-native-easy-grid";
+// import { Col, Row, Grid } from "react-native-easy-grid";
 
 // INI YG PAKAI "react-native-table-component"
 
@@ -121,6 +129,8 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 //INI YANG PAKAI "react-native-paper"
 
 const ListTransaksi = () => {
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [selectedTransaction, setSelectedTransaction] = React.useState(null);
   const [page, setPage] = React.useState<number>(0);
   const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
   const [itemsPerPage, onItemsPerPageChange] = React.useState(
@@ -131,11 +141,10 @@ const ListTransaksi = () => {
     {
       key: 1,
       nama_pembeli: "risa",
-      nama_kasir: "kasir1",
+      nama_kasir: "kasir",
       tgl: "2023-09-04",
       total: 400000,
       invoice: "ABCDE",
-
     },
     {
       key: 2,
@@ -144,7 +153,6 @@ const ListTransaksi = () => {
       tgl: "2023-09-04",
       total: 160000,
       invoice: "ABCDE",
-
     },
     {
       key: 3,
@@ -153,7 +161,6 @@ const ListTransaksi = () => {
       tgl: "2023-09-04",
       total: 100000,
       invoice: "ABCDE",
-
     },
     {
       key: 4,
@@ -162,7 +169,6 @@ const ListTransaksi = () => {
       tgl: "2023-09-04",
       total: 10000,
       invoice: "ABCDE",
-
     },
   ]);
 
@@ -176,29 +182,103 @@ const ListTransaksi = () => {
   return (
     <>
       <RootLayout>
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+              {selectedTransaction && (
+        <>
+          <Text style={styles.modalText}>Detail Transaksi</Text>
+          <Text>Nama Pembeli: {selectedTransaction.nama_pembeli}</Text>
+          <Text>Nama Kasir: {selectedTransaction.nama_kasir}</Text>
+          <Text>Tanggal Transaksi: {selectedTransaction.tgl}</Text>
+          <Text>Total: {selectedTransaction.total}</Text>
+        </>
+      )}
+      <Pressable
+        style={[styles.button, styles.buttonClose]}
+        onPress={() => {setSelectedTransaction(null); setModalVisible(!modalVisible);}}
+      >
+        <Text style={styles.textStyle}>Hide Modal</Text>
+      </Pressable>
+                {/* <Text style={styles.modalText}>Hello World!</Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+                </Pressable> */}
+              </View>
+            </View>
+          </Modal>
+        </View>
+
         <View style={styles.container}>
           <Text style={styles.title}>List Transaksi</Text>
-
+          <ScrollView horizontal>
             <DataTable>
               <DataTable.Header>
-              <DataTable.Title style={{ width: 20}}>invoice</DataTable.Title>
-              <DataTable.Title style={{ width: 20}}>Pembeli</DataTable.Title>
-              <DataTable.Title style={{ width: 20}}>Petugas</DataTable.Title>
-              <DataTable.Title style={{ width: 20 }}>Tanggal Transaksi</DataTable.Title>
-              <DataTable.Title numeric style={{width: 20 }}>Total</DataTable.Title>
-            </DataTable.Header>
+                <DataTable.Title style={{ paddingLeft: 0 }}>
+                  invoice
+                </DataTable.Title>
+                <DataTable.Title style={{ paddingLeft: 10 }}>
+                  Pembeli
+                </DataTable.Title>
+                {/* <DataTable.Title style={{ paddingLeft: 10 }}>
+                  Petugas
+                </DataTable.Title> */}
+                <DataTable.Title style={{ paddingLeft: 10 }}>
+                  Tanggal Transaksi
+                </DataTable.Title>
+                {/* <DataTable.Title style={{ paddingLeft: 10 }}>
+                  Total
+                </DataTable.Title> */}
+                <DataTable.Title style={{ paddingLeft: 10 }}>
+                  Action
+                </DataTable.Title>
+              </DataTable.Header>
 
-               {items.map((item) => (
-              <DataTable.Row key={item.key}>
-                <DataTable.Cell>{item.invoice}</DataTable.Cell>
-                <DataTable.Cell>{item.nama_pembeli}</DataTable.Cell>
-                <DataTable.Cell>{item.nama_kasir}</DataTable.Cell>
-                <DataTable.Cell>{item.tgl}</DataTable.Cell>
-                <DataTable.Cell numeric>{item.total}</DataTable.Cell>
-              </DataTable.Row>
-            ))}
+              {items.map((item) => (
+                <DataTable.Row key={item.key}>
+                  <DataTable.Cell style={{ paddingLeft: 0 }}>
+                    {item.invoice}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={{ paddingLeft: 10 }}>
+                    {item.nama_pembeli}
+                  </DataTable.Cell>
+                  {/* <DataTable.Cell style={{ paddingLeft: 10 }}>
+                    {item.nama_kasir}
+                  </DataTable.Cell> */}
+                  <DataTable.Cell style={{ paddingLeft: 10 }}>
+                    {item.tgl}
+                  </DataTable.Cell>
+                  {/* <DataTable.Cell style={{ paddingLeft: 10 }} numeric>
+                    {item.total}
+                  </DataTable.Cell> */}
+                  <DataTable.Cell style={{ paddingLeft: 10 }}>
+                    <Pressable
+                      style={[styles.button, styles.buttonOpen]}
+                      // onPress={() => setModalVisible(true)}
+                      onPress={() => {
+                        setSelectedTransaction(item);
+                        setModalVisible(true);
+                      }}
+                    >
+                      <Text style={styles.textStyle}>Detail</Text>
+                    </Pressable>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
 
-            {/* <DataTable.Pagination
+              {/* <DataTable.Pagination
               page={page}
               numberOfPages={Math.ceil(items.length / itemsPerPage)}
               onPageChange={(page) => setPage(page)}
@@ -209,7 +289,8 @@ const ListTransaksi = () => {
               showFastPaginationControls
               selectPageDropdownLabel={"Rows per page"}
             /> */}
-          </DataTable>
+            </DataTable>
+          </ScrollView>
         </View>
       </RootLayout>
     </>
@@ -235,11 +316,50 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   dataWrapper: { marginTop: -1 },
-
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "orange",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
 });
 
 export default ListTransaksi;
-
 
 //INI YANG PAKAI "react-native-easy-grid"
 
@@ -362,38 +482,7 @@ export default ListTransaksi;
 //               </Row>
 //             ))}
 //           </Grid> */}
-//           {/* <DataTable>
-//               <DataTable.Header>
-//               <DataTable.Title style={{ width: 20}}>invoice</DataTable.Title>
-//               <DataTable.Title style={{ width: 20}}>Pembeli</DataTable.Title>
-//               <DataTable.Title style={{ width: 20}}>Petugas</DataTable.Title>
-//               <DataTable.Title style={{ width: 20 }}>Tanggal Transaksi</DataTable.Title>
-//               <DataTable.Title numeric style={{width: 20 }}>Total</DataTable.Title>
-//             </DataTable.Header>
-
-//                {items.map((item) => (
-//               <DataTable.Row key={item.key}>
-//                 <DataTable.Cell>{item.invoice}</DataTable.Cell>
-//                 <DataTable.Cell>{item.nama_pembeli}</DataTable.Cell>
-//                 <DataTable.Cell>{item.nama_kasir}</DataTable.Cell>
-//                 <DataTable.Cell>{item.tgl}</DataTable.Cell>
-//                 <DataTable.Cell numeric>{item.total}</DataTable.Cell>
-//               </DataTable.Row>
-//             ))}
-//               */}
-
-//           {/* <DataTable.Pagination
-//               page={page}
-//               numberOfPages={Math.ceil(items.length / itemsPerPage)}
-//               onPageChange={(page) => setPage(page)}
-//               label={`${from + 1}-${to} of ${items.length}`}
-//               numberOfItemsPerPageList={numberOfItemsPerPageList}
-//               numberOfItemsPerPage={itemsPerPage}
-//               onItemsPerPageChange={onItemsPerPageChange}
-//               showFastPaginationControls
-//               selectPageDropdownLabel={"Rows per page"}
-//             />
-//           </DataTable> */}
+//
 //         </View>
 //       </RootLayout>
 //     </>
@@ -422,7 +511,7 @@ export default ListTransaksi;
 //   cell: {
 //     borderWidth: 1,
 //     borderColor: '#ddd',
-//     flex: 1, 
+//     flex: 1,
 //     justifyContent: 'center',
 //     alignItems: 'center'
 //   },

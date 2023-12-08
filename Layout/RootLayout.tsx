@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { View, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
 import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import { FAB } from "react-native-paper";
-import { BottomSheet, ListItem, Button } from "@rneui/themed";
-import {Drawerside} from "../Nav/Navigasi";
+import { BottomSheet, ListItem } from "@rneui/themed";
+import { Drawerside } from "../Nav/Navigasi";
 
 const RootLayout = ({ children }) => {
-  
   const [isVisible, setIsVisible] = useState(false);
   const list = [
     { title: "List Item 1" },
@@ -21,33 +26,39 @@ const RootLayout = ({ children }) => {
   ];
 
   return (
-    <View style={{ flex: 1 }}>
-      <FAB icon="plus" style={styles.fab} onPress={() => setIsVisible(true)} />
-      
-      <BottomSheet modalProps={{}} isVisible={isVisible}>
-        {list.map((l, i) => (
-          <ListItem
-            key={i}
-            containerStyle={l.containerStyle}
-            onPress={l.onPress}
-          >
-            <ListItem.Content>
-              <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
-            </ListItem.Content>
-          </ListItem>
-        ))}
-      </BottomSheet>
-      <View style={styles.container}>
-        <View style={styles.sidebar}>
-          <Sidebar />
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        <FAB
+          icon="plus"
+          style={styles.fab}
+          onPress={() => setIsVisible(true)}
+        />
+
+        <BottomSheet modalProps={{}} isVisible={isVisible}>
+          {list.map((l, i) => (
+            <ListItem
+              key={i}
+              containerStyle={l.containerStyle}
+              onPress={l.onPress}
+            >
+              <ListItem.Content>
+                <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+          ))}
+        </BottomSheet>
+        <View style={styles.container}>
+          <View style={styles.sidebar}>
+            <Sidebar />
+          </View>
+          {/* <Drawerside/> */}
+          <ScrollView style={styles.content}>
+            <Header />
+            <View>{children}</View>
+          </ScrollView>
         </View>
-        {/* <Drawerside/> */}
-        <ScrollView style={styles.content}>
-          <Header />
-          <View>{children}</View>
-        </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -62,24 +73,25 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     bottom: 0,
-    zIndex: 1, // Memberikan zIndex untuk memastikan Sidebar muncul di atas konten lain
-    // Styling tambahan sesuai kebutuhan
-    // width: 200, // Tentukan lebar sidebar di sini
+    zIndex: 1,
+    // width: 200,
   },
   content: {
     flex: 3,
-    // Styling tambahan sesuai kebutuhan
   },
   fab: {
+    backgroundColor: "orange",
+    color: "white",
     position: "absolute",
     margin: 16,
     right: 0,
     bottom: 0,
-    zIndex: 2, // Memberikan zIndex agar tombol berada di atas konten lainnya
+    zIndex: 2,
   },
 });
 
 export default RootLayout;
+
 
 // import React, { useEffect, useState } from 'react';
 // import { View, ScrollView, Text } from 'react-native';
