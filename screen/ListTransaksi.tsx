@@ -133,6 +133,8 @@ const ListTransaksi = () => {
   const [selectedTransaction, setSelectedTransaction] = React.useState(null);
   const [page, setPage] = React.useState<number>(0);
   const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
+  const [transaksiData, setTransaksiData] = React.useState([]);
+
   const [itemsPerPage, onItemsPerPageChange] = React.useState(
     numberOfItemsPerPageList[0]
   );
@@ -179,6 +181,44 @@ const ListTransaksi = () => {
     setPage(0);
   }, [itemsPerPage]);
 
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getTransaksi(); // Panggil fungsi getTransaksi dari API
+        // console.log("ini response", response);
+
+        setTransaksiData(
+          // oalah dah bener itu cantikk, coba lihat ini
+          response.data
+        );
+
+        // coba en sekarang, gimana munculnya? iya iyaa uda mau muncul,tapi belum ku munculin di aplikasinya
+        // jadi gini ku jelasin semoga kamu paham pake ketkan ini
+        // jadi transaksi itu ada banyak bentuknya array []
+        // didalam transaksi itu bentuknya object {nomor_meja, ......}
+        // trus detailnya itu di pindah ke depan. jadi kek {detailtransaksi, nomor_meja .......}
+        // gini cara munculinnya, muncul ngga cantik? hee sek aku bingung bentar. iya sulit kalo nggak anngomong emang
+        // ini yg km jelasin aku paham,aku bingung nya kalau semisal pengen di munculin di modal nya, coba liat di modalnya de
+        // tadi kan ada love nya trus ilg, ada
+        // ilang nya gimna ?
+        if (transaksiData) {
+          console.log("transaksi data", transaksiData);
+          transaksiData.map((data, index) => {
+            console.log(`data ${index} :` + JSON.stringify(data));
+            console.log(
+              `data detail transaksi untuk transaksi ke- ${index} :` +
+                JSON.stringify(data.DetailTransaksi)
+            );
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <RootLayout>
@@ -192,32 +232,85 @@ const ListTransaksi = () => {
               setModalVisible(!modalVisible);
             }}
           >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-              {selectedTransaction && (
-        <>
-          <Text style={styles.modalText}>Detail Transaksi</Text>
-          <Text>Nama Pembeli: {selectedTransaction.nama_pembeli}</Text>
-          <Text>Nama Kasir: {selectedTransaction.nama_kasir}</Text>
-          <Text>Tanggal Transaksi: {selectedTransaction.tgl}</Text>
-          <Text>Total: {selectedTransaction.total}</Text>
-        </>
-      )}
-      <Pressable
-        style={[styles.button, styles.buttonClose]}
-        onPress={() => {setSelectedTransaction(null); setModalVisible(!modalVisible);}}
-      >
-        <Text style={styles.textStyle}>Hide Modal</Text>
-      </Pressable>
-                {/* <Text style={styles.modalText}>Hello World!</Text>
+            <ScrollView>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  {selectedTransaction && (
+                    <>
+                      <Text
+                        style={[{ fontWeight: "bold", textAlign: "center" }]}
+                      >
+                        Detail Transaksi
+                      </Text>
+                      <Text
+                        style={[
+                          styles.modalText,
+                          { fontWeight: "400", fontSize: 12, opacity: 0.5 },
+                        ]}
+                      >
+                        {" "}
+                        Invoice: {selectedTransaction.resi}
+                      </Text>
+                      <Text
+                        style={{
+                          textAlign: "left",
+                          borderTopWidth: 2,
+                          paddingTop: 20,
+                        }}
+                      >
+                        Nama Pembeli: {selectedTransaction.nama_pelanggan}
+                      </Text>
+                      <Text style={{ textAlign: "left" }}>
+                        Nama Kasir: {selectedTransaction.nama_kasir}
+                      </Text>
+                      <Text style={{ textAlign: "left" }}>
+                        Tanggal Transaksi: {selectedTransaction.tgl_transaksi}
+                      </Text>
+                      <Text style={{ textAlign: "left" }}>
+                        Total: {selectedTransaction.total_harga}
+                      </Text>
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          borderBottomWidth: 2,
+                          paddingVertical: 10,
+                          marginBottom: 10,
+                        }}
+                      >
+                        Pesanan:
+                      </Text>
+                      {selectedTransaction.DetailTransaksi.map(
+                        (item, index) => (
+                          <>
+                            <Text style={{ textAlign: "left" }}>
+                              {"<3 "} {item.nama_menu} = {item.jumlah}
+                            </Text>
+                          </>
+                        )
+                      )}
+                      <Text style={{ marginBottom: 10 }}></Text>
+                    </>
+                  )}
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => {
+                      setSelectedTransaction(null);
+                      setModalVisible(!modalVisible);
+                    }}
+                  >
+                    <Text style={styles.textStyle}>Hide Modal</Text>
+                  </Pressable>
+                  {/* <Text style={styles.modalText}>Hello World!</Text>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
                   <Text style={styles.textStyle}>Hide Modal</Text>
                 </Pressable> */}
+                </View>
               </View>
-            </View>
+            </ScrollView>
           </Modal>
         </View>
 
@@ -246,22 +339,22 @@ const ListTransaksi = () => {
                 </DataTable.Title>
               </DataTable.Header>
 
-              {items.map((item) => (
+              {transaksiData.map((item) => (
                 <DataTable.Row key={item.key}>
                   <DataTable.Cell style={{ paddingLeft: 0 }}>
-                    {item.invoice}
+                    {item.resi}
                   </DataTable.Cell>
                   <DataTable.Cell style={{ paddingLeft: 10 }}>
-                    {item.nama_pembeli}
+                    {item.nama_pelanggan}
                   </DataTable.Cell>
                   {/* <DataTable.Cell style={{ paddingLeft: 10 }}>
                     {item.nama_kasir}
                   </DataTable.Cell> */}
                   <DataTable.Cell style={{ paddingLeft: 10 }}>
-                    {item.tgl}
+                    {item.tgl_transaksi}
                   </DataTable.Cell>
                   {/* <DataTable.Cell style={{ paddingLeft: 10 }} numeric>
-                    {item.total}
+                    {item.total_harga}
                   </DataTable.Cell> */}
                   <DataTable.Cell style={{ paddingLeft: 10 }}>
                     <Pressable
@@ -327,26 +420,27 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
+    // alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4, // Ubah tinggi bayangan (shadow)
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowOpacity: 0.5, // Ubah transparansi bayangan
+    shadowRadius: 10,
     elevation: 5,
   },
   button: {
     borderRadius: 20,
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
     elevation: 2,
   },
   buttonOpen: {
     backgroundColor: "orange",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "orange",
   },
   textStyle: {
     color: "white",
@@ -356,6 +450,10 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+  },
+  transactionDetail: {
+    textAlign: "left",
+    paddingTop: 20,
   },
 });
 

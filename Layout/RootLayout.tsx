@@ -10,7 +10,6 @@ import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import { FAB } from "react-native-paper";
 import { BottomSheet, ListItem } from "@rneui/themed";
-import { Drawerside } from "../Nav/Navigasi";
 
 const RootLayout = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false);

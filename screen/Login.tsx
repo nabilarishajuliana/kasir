@@ -75,7 +75,7 @@ const Login = ({ navigation }) => {
         const response = await pesertaLogin(data.username,data.password);
           console.log("username",data.username)
           console.log("pass",data.password)
-          console.log("code",response.code);
+          // console.log("code",response.code);
 
         if (response && response.code == 200) {
           

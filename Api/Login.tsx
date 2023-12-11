@@ -51,7 +51,7 @@ const pesertaLogin = async (username: any, password: any) => {
     });
 
     const data = await response.json();
-    console.log(data);
+    console.log("data login",data);
 
     // if (response.ok && data.message) {
     //   await AsyncStorage.setItem('uuid', data.user.uuid);
@@ -70,6 +70,7 @@ const pesertaLogin = async (username: any, password: any) => {
         // console.log(error.message);
       } else {
         // console.log(error);
+        // ini user login kan cantik 
       throw error;
     }
   };

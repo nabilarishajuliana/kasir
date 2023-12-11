@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+// import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
@@ -11,7 +11,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { OrientationLock } from 'expo-screen-orientation';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import "react-native-gesture-handler";
-import { createDrawerNavigator } from '@react-navigation/drawer';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
 
 const Stack = createNativeStackNavigator();
 
@@ -66,23 +66,5 @@ const styles = StyleSheet.create({
 
 export  {Nav};
 
-const Drawerside = () => {
-    const Drawer = createDrawerNavigator();
-  
-    return (
-      <>
-      <NavigationContainer>
-        <Drawer.Navigator>
-          <Drawer.Screen name='Dashboard' component={DashboardScreen}/>
-          <Drawer.Screen name='List' component={ListTransaksi}/>
-        </Drawer.Navigator>
-      </NavigationContainer>
-      </>
-    );
-  };
-  
-  
-  
-  export  {Drawerside};
 
 

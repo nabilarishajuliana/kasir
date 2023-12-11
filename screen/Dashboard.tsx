@@ -5,6 +5,8 @@ import { IMenu } from '../types/menu-types'; // Sesuaikan dengan struktur folder
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getMenu } from '../Api/GetMenu';
 import RootLayout from '../Layout/RootLayout';
+import { FAB } from "react-native-paper";
+
 
 
 
@@ -144,7 +146,10 @@ const DashboardScreen = () => {
   }, []);
 
   return (
+    <>
+    
     <RootLayout>
+      
       <View style={styles.container} >
       <Text style={styles.heading}>List Menu</Text>
       <ScrollView>
@@ -158,6 +163,8 @@ const DashboardScreen = () => {
       </ScrollView>
     </View>
     </RootLayout>
+    </>
+    
     
   );
 };
