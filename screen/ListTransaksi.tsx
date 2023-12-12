@@ -188,19 +188,10 @@ const ListTransaksi = () => {
         // console.log("ini response", response);
 
         setTransaksiData(
-          // oalah dah bener itu cantikk, coba lihat ini
           response.data
         );
 
-        // coba en sekarang, gimana munculnya? iya iyaa uda mau muncul,tapi belum ku munculin di aplikasinya
-        // jadi gini ku jelasin semoga kamu paham pake ketkan ini
-        // jadi transaksi itu ada banyak bentuknya array []
-        // didalam transaksi itu bentuknya object {nomor_meja, ......}
-        // trus detailnya itu di pindah ke depan. jadi kek {detailtransaksi, nomor_meja .......}
-        // gini cara munculinnya, muncul ngga cantik? hee sek aku bingung bentar. iya sulit kalo nggak anngomong emang
-        // ini yg km jelasin aku paham,aku bingung nya kalau semisal pengen di munculin di modal nya, coba liat di modalnya de
-        // tadi kan ada love nya trus ilg, ada
-        // ilang nya gimna ?
+       
         if (transaksiData) {
           console.log("transaksi data", transaksiData);
           transaksiData.map((data, index) => {
@@ -232,7 +223,7 @@ const ListTransaksi = () => {
               setModalVisible(!modalVisible);
             }}
           >
-            <ScrollView>
+            {/* <ScrollView> */}
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   {selectedTransaction && (
@@ -267,7 +258,7 @@ const ListTransaksi = () => {
                         Tanggal Transaksi: {selectedTransaction.tgl_transaksi}
                       </Text>
                       <Text style={{ textAlign: "left" }}>
-                        Total: {selectedTransaction.total_harga}
+                        Total: {selectedTransaction.total_harga.toLocaleString('id-ID')}
                       </Text>
                       <Text
                         style={{
@@ -310,7 +301,7 @@ const ListTransaksi = () => {
                 </Pressable> */}
                 </View>
               </View>
-            </ScrollView>
+            {/* </ScrollView> */}
           </Modal>
         </View>
 

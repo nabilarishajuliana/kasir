@@ -8,53 +8,62 @@ import Login from "../screen/Login";
 import DashboardScreen from "../screen/Dashboard";
 import ListTransaksi from "../screen/ListTransaksi";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { OrientationLock } from 'expo-screen-orientation';
-import * as ScreenOrientation from 'expo-screen-orientation';
+import { OrientationLock } from "expo-screen-orientation";
+import * as ScreenOrientation from "expo-screen-orientation";
 import "react-native-gesture-handler";
+import { CoffeeCartProvider } from "../context/CartContext";
 // import { createDrawerNavigator } from '@react-navigation/drawer';
 
 const Stack = createNativeStackNavigator();
 
 const Nav = () => {
-
   // Mengatur orientasi layar ke landscape
   // React.useEffect(() => {
   //   async function changeScreenOrientation() {
   //     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_LEFT);
   //   }
-    
+
   //   changeScreenOrientation();
   // }, []);
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-         <Stack.Screen name="Home" component={Login} />  
-          <Stack.Screen name="Dashboard" component={DashboardScreen} options={{
-            headerBackVisible: false, // Menghilangkan tombol kembali di header
-          }}/>
-          <Stack.Screen name="List" component={ListTransaksi} options={{
-            headerBackVisible: false, // Menghilangkan tombol kembali di header
-          }} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <CoffeeCartProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Home" component={Login} />
+            <Stack.Screen
+              name="Dashboard"
+              component={DashboardScreen}
+              options={{
+                headerBackVisible: false, // Menghilangkan tombol kembali di header
+              }}
+            />
+            <Stack.Screen
+              name="List"
+              component={ListTransaksi}
+              options={{
+                headerBackVisible: false, // Menghilangkan tombol kembali di header
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </CoffeeCartProvider>
     </SafeAreaProvider>
-
   );
-}
+};
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "white", 
+    backgroundColor: "white",
   },
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
-    paddingTop:  50 , 
+    paddingTop: 50,
     backgroundColor: "#fff",
   },
   text: {
@@ -64,7 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export  {Nav};
-
-
-
+export { Nav };

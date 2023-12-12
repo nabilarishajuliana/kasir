@@ -53,16 +53,7 @@ const pesertaLogin = async (username: any, password: any) => {
     const data = await response.json();
     console.log("data login",data);
 
-    // if (response.ok && data.message) {
-    //   await AsyncStorage.setItem('uuid', data.user.uuid);
-    //   await AsyncStorage.setItem('role', data.user.role);
-    //   await AsyncStorage.setItem('id', data.user.id);
-    //   await AsyncStorage.setItem('username', data.user.username);
-    //   await AsyncStorage.setItem('photo_profile', data.user.photo_profile);
-    //   await AsyncStorage.setItem('token', data.token);
-    // } else {
-    //   // console.log('pesertaLogin Error', data);
-    // }
+
 
     return data;
   } catch (error) {

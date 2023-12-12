@@ -1,16 +1,24 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet,Button } from 'react-native';
-import { useCoffeeCart } from '../context/CartContext';
 import { IMenu } from '../types/menu-types';
 // import { Button } from '../ui/button';
 import { Card,Icon } from '@rneui/themed';
+import { useCoffeeCart } from '../context/CartContext';
 
 interface Props {
   menu: IMenu
 }
 
 const CardMenu: React.FC<Props> = ({ menu }: Props) => {
+  const {
+    getItemQuantity,
+    increaseCartQuantity,
+    decreaseCartQuantity,
+    cartItems,
+  } = useCoffeeCart();
+  const quantity = getItemQuantity(menu.id);
   
+ 
 
   return (
     <View
@@ -26,11 +34,14 @@ const CardMenu: React.FC<Props> = ({ menu }: Props) => {
               menu.gambar,
             }}
           />
-          <Text style={{ marginBottom: 30,marginTop:10 }}>
+          <Text style={{ marginTop:10  }}>
           {menu.deskripsi}
           </Text>
+          <Text style={{ marginBottom: 20,marginTop:5, fontWeight: 'bold', color: 'orange' }}>
+          Rp{menu.harga.toLocaleString('id-ID')}
+          </Text>
           
-          <TouchableOpacity>
+          {/* <TouchableOpacity onPress={handleAddToCart}>
             <Text  style={{
               backgroundColor: 'orange',
               paddingVertical: 8,
@@ -42,7 +53,33 @@ const CardMenu: React.FC<Props> = ({ menu }: Props) => {
             }}>
               ADD
             </Text>
+          </TouchableOpacity> */}
+
+{quantity === 0 ? (
+        <View style={styles.fullWidth}>
+          <TouchableOpacity  onPress={() => increaseCartQuantity(menu)}>
+            <Text style={{
+              backgroundColor: 'orange',
+              paddingVertical: 8,
+              paddingHorizontal: 16,
+              borderRadius: 8,
+              color: 'white', // Untuk mengatur warna teks menjadi putih
+              fontWeight: '600', // Gunakan '600' untuk semibold
+              textAlign: 'center', // Untuk meletakkan teks di tengah
+            }}>Add to Cart</Text>
           </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.spaceBetween}>
+          <TouchableOpacity onPress={() => decreaseCartQuantity(menu)} style={styles.quantityButton}>
+            <Text style={styles.buttonText}>-</Text>
+          </TouchableOpacity>
+          <Text style={styles.quantityText}>{quantity}</Text>
+          <TouchableOpacity onPress={() => increaseCartQuantity(menu)} style={styles.quantityButton}>
+            <Text style={styles.buttonText}>+</Text>
+          </TouchableOpacity>
+        </View>
+      )}
         </Card>
       
     </View>
@@ -109,19 +146,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 8,
   },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
+  // buttonText: {
+  //   color: 'white',
+  //   fontWeight: 'bold',
+  // },
   quantityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  quantityButton: {
-    backgroundColor: 'lightgray',
-    padding: 8,
-    borderRadius: 4,
-  },
+  // quantityButton: {
+  //   backgroundColor: 'lightgray',
+  //   padding: 8,
+  //   borderRadius: 4,
+  // },
   quantityButtonText: {
     fontSize: 18,
     color: 'black',
@@ -130,6 +167,29 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  fullWidth: {
+    flex: 1,
+  },
+  spaceBetween: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  quantityButton: {
+    backgroundColor: '#EEE',
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  quantityText: {
+    fontWeight: 'bold',
+    fontSize: 18,
   },
 });
 

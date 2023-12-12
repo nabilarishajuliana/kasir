@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
-import { IMenu } from '../types/menu-types';
+import React, { createContext, useContext, useState } from "react";
+import { IMenu } from "../types/menu-types";
 
 type CoffeeCartProviderProps = {
   children: React.ReactNode;
@@ -26,7 +26,9 @@ export function useCoffeeCart() {
   return useContext(CoffeeCartContext);
 }
 
-export function CoffeeCartProvider({ children }: CoffeeCartProviderProps) {
+export const CoffeeCartProvider: React.FC<CoffeeCartProviderProps> = ({
+  children,
+}: CoffeeCartProviderProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const cartQuantity = cartItems.reduce(
@@ -93,4 +95,4 @@ export function CoffeeCartProvider({ children }: CoffeeCartProviderProps) {
       {children}
     </CoffeeCartContext.Provider>
   );
-}
+};
