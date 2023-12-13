@@ -6,6 +6,7 @@ import {
   Pressable,
   Modal,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { getTransaksi } from "../Api/GetTransaksi";
 import { ITransaksi } from "../types/transaksi-types";
@@ -134,6 +135,7 @@ const ListTransaksi = () => {
   const [page, setPage] = React.useState<number>(0);
   const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
   const [transaksiData, setTransaksiData] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true); // State untuk mengetahui status loading
 
   const [itemsPerPage, onItemsPerPageChange] = React.useState(
     numberOfItemsPerPageList[0]
@@ -190,7 +192,7 @@ const ListTransaksi = () => {
         setTransaksiData(
           response.data
         );
-
+        setIsLoading(false); // Set loading menjadi false setelah data selesai diambil
        
         if (transaksiData) {
           console.log("transaksi data", transaksiData);
@@ -204,6 +206,7 @@ const ListTransaksi = () => {
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+        setIsLoading(false); // Pastikan loading dihentikan jika terjadi kesalahan
       }
     };
 
@@ -292,13 +295,7 @@ const ListTransaksi = () => {
                   >
                     <Text style={styles.textStyle}>Hide Modal</Text>
                   </Pressable>
-                  {/* <Text style={styles.modalText}>Hello World!</Text>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Text style={styles.textStyle}>Hide Modal</Text>
-                </Pressable> */}
+                  
                 </View>
               </View>
             {/* </ScrollView> */}
@@ -307,6 +304,13 @@ const ListTransaksi = () => {
 
         <View style={styles.container}>
           <Text style={styles.title}>List Transaksi</Text>
+          {isLoading ? (
+          <ActivityIndicator
+          size="large"
+          color="orange"
+          style={{ flex: 1 ,marginTop:10}}
+        />
+        ) : (
           <ScrollView horizontal>
             <DataTable>
               <DataTable.Header>
@@ -375,6 +379,7 @@ const ListTransaksi = () => {
             /> */}
             </DataTable>
           </ScrollView>
+          )}
         </View>
       </RootLayout>
     </>
@@ -392,7 +397,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginTop: 20,
+    marginTop: 10,
   },
   video: {
     width: 300,

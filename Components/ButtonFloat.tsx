@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import Sidebar from "../Components/Sidebar";
-import Header from "../Components/Header";
 import { FAB } from "react-native-paper";
 import { BottomSheet, ListItem } from "@rneui/themed";
 import { useCoffeeCart } from "../context/CartContext";
@@ -32,6 +30,9 @@ const ButtonFloat = () => {
   }, []);
 
   const [isVisible, setIsVisible] = useState(false);
+  const [totalHarga, setTotalHarga] = useState(0);
+  let totalSemua = 0;
+
   const list = [
     {
       title: "Cancel",
@@ -54,23 +55,38 @@ const ButtonFloat = () => {
             return null;
           }
 
-          // cantik bisa?? di bisa bisain eh dik tapi lemot banget tombolnya
+          const totalHargaItem = item.jumlah * item.harga
+          totalSemua += totalHargaItem;
 
           return (
             <ListItem>
               <ListItem.Content>
                 <ListItem.Title style={{ fontWeight: 'bold' }}>{menuItem.nama_menu}</ListItem.Title>
-                <ListItem.Subtitle>Qty: {item.jumlah} , Harga: Rp{item.harga.toLocaleString('id-ID')}</ListItem.Subtitle>
+                <ListItem.Subtitle>Qty: {item.jumlah} , Harga: Rp{totalHargaItem.toLocaleString('id-ID')}</ListItem.Subtitle>
               </ListItem.Content>
             </ListItem>
           );
         })}
+        <ListItem>
+              <ListItem.Content style={{ borderTopWidth:2,borderColor:"orange"}}>
+                <ListItem.Title style={{ fontWeight: 'bold', paddingTop:10,}}>Total Pesanan</ListItem.Title>
+                <ListItem.Subtitle>Rp{totalSemua.toLocaleString('id-ID')}</ListItem.Subtitle>
+              </ListItem.Content>
+            </ListItem>
+        <ListItem
+          containerStyle={{ backgroundColor: "green" }}
+          onPress={() => setIsVisible(false)}
+        >
+          <ListItem.Content style={{ alignItems: "center" }}>
+            <ListItem.Title style={{ color: "white", fontWeight:"bold"}}>Save</ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
         <ListItem
           containerStyle={{ backgroundColor: "red" }}
           onPress={() => setIsVisible(false)}
         >
-          <ListItem.Content>
-            <ListItem.Title style={{ color: "white" }}>cancel</ListItem.Title>
+          <ListItem.Content style={{ alignItems: "center" }}>
+            <ListItem.Title style={{ color: "white", fontWeight:"bold"}}>Hide</ListItem.Title>
           </ListItem.Content>
         </ListItem>
       </BottomSheet>
@@ -83,15 +99,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
   },
-  sidebar: {
-    flex: 1,
-    position: "absolute",
-    left: 0,
-    top: 0,
-    bottom: 0,
-    zIndex: 1,
-    // width: 200,
-  },
+  
   content: {
     flex: 3,
   },

@@ -11,7 +11,6 @@ const menuData = {
     { title: "Menu", nav: "Dashboard" },
     { title: "List Transaksi", nav: "List" },
   ],
-  // ... Definisikan menu untuk role ADMIN, MANAGER, dll.
 };
 
 
@@ -25,17 +24,11 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
        AsyncStorage.clear();
-      // await AsyncStorage.removeItem("uuid");
-      // await AsyncStorage.removeItem("role");
-      // await AsyncStorage.removeItem("id");
-      // await AsyncStorage.removeItem("username");
-      // await AsyncStorage.removeItem("photo_profile");
-      // await AsyncStorage.removeItem("token");
+      
       console.log('Semua item berhasil dihapus dari AsyncStorage.');
 
       navigate("Home" as any);
     } catch (error) {
-      // Tangani kesalahan jika ada
       console.error("Error clearing AsyncStorage:", error);
     }
   };
@@ -48,6 +41,7 @@ const Sidebar = () => {
       width: open ? 240 : 80,
       height: "100%",
       padding: 20,
+      
     }}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -121,12 +115,7 @@ const Sidebar = () => {
         }}
         onPress={handleLogout}
       >
-        {/* <MenuOutlined           
-        style={{ width: 20, height: 20, marginRight: 10 }}/> */}
-        {/* <Image
-          source={require("../assets/icons/logout.png")}
-          style={{ width: 20, height: 20, marginRight: 10 }}
-        /> */}
+        
          <Text>Logout</Text>
       </TouchableOpacity>}
     </View>

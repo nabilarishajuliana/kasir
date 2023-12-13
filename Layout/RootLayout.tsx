@@ -9,53 +9,20 @@ import {
 import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import { FAB } from "react-native-paper";
-import { BottomSheet, ListItem } from "@rneui/themed";
 import { useCoffeeCart } from '../context/CartContext';
 import ButtonFloat from "../Components/ButtonFloat";
 
 const RootLayout = ({ children }) => {
   const { cartItems } = useCoffeeCart(); // Menggunakan useCoffeeCart disini
-
-  const [isVisible, setIsVisible] = useState(false);
-  const list = [
-    { title: "Nasi goreng" , harga:20000},
-    { title: "Kentang", harga:20000 },
-    {
-      title: "Cancel",
-      containerStyle: { backgroundColor: "red" },
-      titleStyle: { color: "white" },
-      onPress: () => setIsVisible(false),
-    },
-  ];
-
+ 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
-        {/* <FAB
-          icon="plus"
-          style={styles.fab}
-          onPress={() => setIsVisible(true)}
-        />
-
-        <BottomSheet modalProps={{}} isVisible={isVisible}>
-          {list.map((l, i) => (
-            <ListItem
-              key={i}
-              containerStyle={l.containerStyle}
-              onPress={l.onPress}
-            >
-              <ListItem.Content>
-                <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
-              </ListItem.Content>
-            </ListItem>
-          ))}
-        </BottomSheet> */}
         <ButtonFloat/>
         <View style={styles.container}>
           <View style={styles.sidebar}>
             <Sidebar />
           </View>
-          {/* <Drawerside/> */}
           <ScrollView style={styles.content}>
             <Header />
             <View>{children}</View>

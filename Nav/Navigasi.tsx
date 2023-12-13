@@ -28,7 +28,6 @@ const Nav = () => {
 
   return (
     <SafeAreaProvider>
-      <CoffeeCartProvider>
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="Home" component={Login} />
@@ -36,19 +35,18 @@ const Nav = () => {
               name="Dashboard"
               component={DashboardScreen}
               options={{
-                headerBackVisible: false, // Menghilangkan tombol kembali di header
+                headerBackVisible: false, 
               }}
             />
             <Stack.Screen
               name="List"
               component={ListTransaksi}
               options={{
-                headerBackVisible: false, // Menghilangkan tombol kembali di header
+                headerBackVisible: false, 
               }}
             />
           </Stack.Navigator>
         </NavigationContainer>
-      </CoffeeCartProvider>
     </SafeAreaProvider>
   );
 };

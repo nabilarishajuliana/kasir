@@ -1,47 +1,50 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet,Button } from 'react-native';
-import { IMenu } from '../types/menu-types';
+import React from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Button,
+} from "react-native";
+import { IMenu } from "../types/menu-types";
 // import { Button } from '../ui/button';
-import { Card,Icon } from '@rneui/themed';
-import { useCoffeeCart } from '../context/CartContext';
+import { Card, Icon } from "@rneui/themed";
+import { useCoffeeCart } from "../context/CartContext";
 
 interface Props {
-  menu: IMenu
+  menu: IMenu;
 }
 
 const CardMenu: React.FC<Props> = ({ menu }: Props) => {
-  const {
-    getItemQuantity,
-    increaseCartQuantity,
-    decreaseCartQuantity,
-    cartItems,
-  } = useCoffeeCart();
+  const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity } =
+    useCoffeeCart();
   const quantity = getItemQuantity(menu.id);
-  
- 
 
   return (
-    <View
-      key={menu.id}
-    >
+    <View key={menu.id}>
       <Card>
-          <Card.Title>{menu.nama_menu}</Card.Title>
-          <Card.Divider />
-          <Card.Image
-            style={{ padding: 0 }}
-            source={{
-              uri:
-              menu.gambar,
-            }}
-          />
-          <Text style={{ marginTop:10  }}>
-          {menu.deskripsi}
-          </Text>
-          <Text style={{ marginBottom: 20,marginTop:5, fontWeight: 'bold', color: 'orange' }}>
-          Rp{menu.harga.toLocaleString('id-ID')}
-          </Text>
-          
-          {/* <TouchableOpacity onPress={handleAddToCart}>
+        <Card.Title>{menu.nama_menu}</Card.Title>
+        <Card.Divider />
+        <Card.Image
+          style={{ padding: 0 }}
+          source={{
+            uri: menu.gambar,
+          }}
+        />
+        <Text style={{ marginTop: 10 }}>{menu.deskripsi}</Text>
+        <Text
+          style={{
+            marginBottom: 20,
+            marginTop: 5,
+            fontWeight: "bold",
+            color: "orange",
+          }}
+        >
+          Rp{menu.harga.toLocaleString("id-ID")}
+        </Text>
+
+        {/* <TouchableOpacity onPress={handleAddToCart}>
             <Text  style={{
               backgroundColor: 'orange',
               paddingVertical: 8,
@@ -55,33 +58,53 @@ const CardMenu: React.FC<Props> = ({ menu }: Props) => {
             </Text>
           </TouchableOpacity> */}
 
-{quantity === 0 ? (
-        <View style={styles.fullWidth}>
-          <TouchableOpacity  onPress={() => increaseCartQuantity(menu)}>
-            <Text style={{
-              backgroundColor: 'orange',
-              paddingVertical: 8,
-              paddingHorizontal: 16,
-              borderRadius: 8,
-              color: 'white', // Untuk mengatur warna teks menjadi putih
-              fontWeight: '600', // Gunakan '600' untuk semibold
-              textAlign: 'center', // Untuk meletakkan teks di tengah
-            }}>Add to Cart</Text>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <View style={styles.spaceBetween}>
-          <TouchableOpacity onPress={() => decreaseCartQuantity(menu)} style={styles.quantityButton}>
-            <Text style={styles.buttonText}>-</Text>
-          </TouchableOpacity>
-          <Text style={styles.quantityText}>{quantity}</Text>
-          <TouchableOpacity onPress={() => increaseCartQuantity(menu)} style={styles.quantityButton}>
-            <Text style={styles.buttonText}>+</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-        </Card>
-      
+        {quantity === 0 ? (
+          <View >
+            <TouchableOpacity onPress={() => increaseCartQuantity(menu)}>
+              <Text
+                style={{
+                  backgroundColor: "orange",
+                  paddingVertical: 8,
+                  paddingHorizontal: 16,
+                  borderRadius: 8,
+                  color: "white", // Untuk mengatur warna teks menjadi putih
+                  fontWeight: "600", // Gunakan '600' untuk semibold
+                  textAlign: "center", // Untuk meletakkan teks di tengah
+                }}
+              >
+                Add to Cart
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.spaceBetween}>
+            {/* <TouchableOpacity
+              onPress={() => decreaseCartQuantity(menu)}
+              style={styles.quantityButton}
+            >
+              <Text style={styles.buttonText}>-</Text>
+            </TouchableOpacity> */}
+            <TouchableOpacity onPress={() => decreaseCartQuantity(menu)}>
+              <View style={styles.quantityButton}>
+                <Text style={styles.buttonText}>-</Text>
+              </View>
+            </TouchableOpacity>
+
+            <Text style={styles.quantityText}>{quantity}</Text>
+            {/* <TouchableOpacity
+              onPress={() => increaseCartQuantity(menu)}
+              style={styles.quantityButton}
+            >
+              <Text style={styles.buttonText}>+</Text>
+            </TouchableOpacity> */}
+            <TouchableOpacity onPress={() => increaseCartQuantity(menu)}>
+              <View style={styles.quantityButton}>
+                <Text style={styles.buttonText}>+</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
+      </Card>
     </View>
   );
 };
@@ -90,17 +113,17 @@ const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
 
-    flexDirection: 'column',
+    flexDirection: "column",
 
-    alignItems: 'center',
+    alignItems: "center",
 
     margin: 5,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     borderRadius: 8,
     padding: 16,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginVertical: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -111,7 +134,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     borderRadius: 8,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   image: {
     width: 100,
@@ -124,24 +147,24 @@ const styles = StyleSheet.create({
   },
   menuName: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   description: {
     fontSize: 14,
-    color: 'gray',
+    color: "gray",
     marginTop: 4,
   },
   price: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 8,
-    color: 'orange',
+    color: "orange",
   },
   buttonContainer: {
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   addToCartButton: {
-    backgroundColor: 'orange',
+    backgroundColor: "orange",
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 8,
@@ -151,8 +174,8 @@ const styles = StyleSheet.create({
   //   fontWeight: 'bold',
   // },
   quantityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   // quantityButton: {
   //   backgroundColor: 'lightgray',
@@ -161,34 +184,34 @@ const styles = StyleSheet.create({
   // },
   quantityButtonText: {
     fontSize: 18,
-    color: 'black',
+    color: "black",
   },
   quantity: {
     marginHorizontal: 8,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   fullWidth: {
     flex: 1,
   },
   spaceBetween: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   quantityButton: {
-    backgroundColor: '#EEE',
+    backgroundColor: "#EEE",
     width: 40,
     height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonText: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   quantityText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 18,
   },
 });
