@@ -1,11 +1,14 @@
 import React, {useEffect,useState,} from 'react';
 import { View, Text, Image, StyleSheet,Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { useAuth } from '../context/AuthContext';
+
 // import { Button } from 'antd';
 
 
 const Header = () => {
   const [nama, setNama] = useState('');
+  // const { userData } = useAuth();
 
   useEffect(() => {
     // Mengambil data dari AsyncStorage saat komponen di-mount

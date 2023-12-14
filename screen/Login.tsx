@@ -6,14 +6,12 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { pesertaLogin } from '../Api/Login';
+import { pesertaLogin } from "../Api/Login";
 import Password from "antd/es/input/Password";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Additional dependencies in React Native may need different libraries or implementation
 
@@ -35,72 +33,44 @@ const Login = ({ navigation }) => {
     setData({ ...data, [name]: value });
   };
 
-  //   const handleSubmit = () => {
-  //     setIsLoading(true);
-  //     // Use fetch or Axios for network requests in React Native
-  //     fetch(`${process.env.REACT_NATIVE_API_URL}/user/login`, {
-  //       method: 'POST',
-  //       body: JSON.stringify({
-  //         username: data.username,
-  //         password: data.password,
-  //       }),
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     })
-  //       .then((response) => response.json())
-  //       .then((res) => {
-  //         const token = res.data.token;
-  //         if (token) {
-  //           // Set token in AsyncStorage or SecureStorage in React Native
-  //           // Redirect to another screen
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         // Handle errors, maybe display a message to the user
-  //       })
-  //       .finally(() => {
-  //         setIsLoading(false);
-  //       });
-  //   };
+  
 
-  const {navigate}    = useNavigation<NavigationProp<any>>();
+  const { navigate } = useNavigation<NavigationProp<any>>();
 
-    // const [email, setEmail]             = React.useState('');
-    // const [password, setPassword]                  = React.useState('');
+  // const [email, setEmail]             = React.useState('');
+  // const [password, setPassword]                  = React.useState('');
 
-  const handleLogin   = async () => {
-    setIsLoading(true)
+  const handleLogin = async () => {
+    setIsLoading(true);
     try {
-        const response = await pesertaLogin(data.username,data.password);
-          console.log("username",data.username)
-          console.log("pass",data.password)
-          // console.log("code",response.code);
+      const response = await pesertaLogin(data.username, data.password);
+      console.log("username", data.username);
+      console.log("pass", data.password);
 
-        if (response && response.code == 200) {
-          
-          // console.log(response);
-            navigate("Dashboard")
-            setIsLoading(false)
-            const idString = JSON.stringify(response.data.user.id);
+      if (response && response.code == 200) {
 
-       AsyncStorage.setItem('uuid', response.data.user.uuid);
-       AsyncStorage.setItem('role', response.data.user.role);
-       AsyncStorage.setItem('id', idString);
-       AsyncStorage.setItem('username', response.data.user.username);
-       AsyncStorage.setItem('photo_profile', response.data.user.photo_profile);
-       AsyncStorage.setItem('token', response.data.token);
-        }else{
-            Alert.alert('Gagal Login', 'yang bener dong username sm passwordnya')
-            setIsLoading(false)
-        }
+        // console.log(response);
+        navigate("Dashboard");
+        setIsLoading(false);
+        const idString = JSON.stringify(response.data.user.id);
+
+        // AsyncStorage.setItem("uuid", response.data.user.uuid);
+        // AsyncStorage.setItem("role", response.data.user.role);
+        // AsyncStorage.setItem("id", idString);
+        // AsyncStorage.setItem("username", response.data.user.username);
+        // AsyncStorage.setItem("photo_profile", response.data.user.photo_profile);
+        // AsyncStorage.setItem("token", response.data.token);
+      } else {
+        Alert.alert("Gagal Login", "yang bener dong username sm passwordnya");
+        setIsLoading(false);
+      }
     } catch (error) {
-        // console.log(error);
+      // console.log(error);
     }
   };
 
   return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={{ backgroundColor: "white", padding: 20, borderRadius: 10 }}>
         <View style={{ marginBottom: 20 }}>
           <Text style={{ fontWeight: "bold", fontSize: 20 }}>
@@ -144,18 +114,16 @@ const Login = ({ navigation }) => {
             alignItems: "center",
           }}
           onPress={handleLogin}
-          >
+        >
           {isLoading ? (
             <ActivityIndicator color="white" />
           ) : (
             <Text style={{ color: "white" }}>Login</Text>
           )}
         </TouchableOpacity>
-        
       </View>
       <Text>Develop on 2 DAY</Text>
     </View>
-    
   );
 };
 

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   ActivityIndicator,
+  Button
 } from "react-native";
 import CardMenu from "../Components/CardMenu"; // Sesuaikan dengan struktur folder Anda
 import { IMenu } from "../types/menu-types"; // Sesuaikan dengan struktur folder Anda
@@ -13,11 +14,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getMenu } from "../Api/GetMenu";
 import RootLayout from "../Layout/RootLayout";
 import { FAB } from "react-native-paper";
+import RNRestart from 'react-native-restart';
 
 const DashboardScreen = () => {
   const [orientation, setOrientation] = useState("portrait"); // State untuk mengetahui orientasi layar
   const [dataMenu, setDataMenu] = useState<IMenu[]>([]);
   const [isLoading, setIsLoading] = useState(true); // State untuk mengetahui status loading
+  const [token, setToken] = useState('');
+
 
   useEffect(() => {
     // Mendeteksi orientasi saat komponen dipasang
@@ -37,6 +41,12 @@ const DashboardScreen = () => {
     return () => subscription.remove(); // Membersihkan event listener saat komponen di-unmount
   }, []);
 
+  const handleAppReload = () => {
+    RNRestart.restart();
+    };
+
+
+
   useEffect(() => {
     const fetchData = async () => {
       // const menuData: IMenu[] = await getMenu();
@@ -45,9 +55,21 @@ const DashboardScreen = () => {
 
       try {
         const menuData: IMenu[] = await getMenu();
+
+        AsyncStorage.getItem('token')
+      .then(value => {
+        if (value !== null) {
+          setToken(value); // Menyimpan nilai ke state
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+      console.log("token", token)
         setDataMenu(menuData);
         setIsLoading(false); // Set loading menjadi false setelah data selesai diambil
       } catch (error) {
+
         console.error("Error fetching data:", error);
         setIsLoading(false); // Pastikan loading dihentikan jika terjadi kesalahan
       }
@@ -62,6 +84,7 @@ const DashboardScreen = () => {
       <RootLayout>
         <View style={styles.container}>
           <Text style={styles.heading}>List Menu</Text>
+          {/* <Button title="Reload App" onPress={handleAppReload} /> */}
           {isLoading ? (
             <View>
               <ActivityIndicator

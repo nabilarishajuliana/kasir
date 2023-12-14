@@ -37,8 +37,12 @@ const responseData = await response.json();
   } catch (error) {
     if (error instanceof Error) {
         // console.log(error.message);
+        // console.log( AsyncStorage.getItem('token'))
+
       } else {
         // console.log(error);
+        // console.log( AsyncStorage.getItem('token'))
+
     throw error;
   }
     };

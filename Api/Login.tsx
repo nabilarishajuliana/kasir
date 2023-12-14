@@ -53,6 +53,16 @@ const pesertaLogin = async (username: any, password: any) => {
     const data = await response.json();
     console.log("data login",data);
 
+    if (response ) {
+      await AsyncStorage.setItem("uuid", data.data.user.uuid);
+      await AsyncStorage.setItem("role", data.data.user.role);
+        // AsyncStorage.setItem("id", idString);
+        await AsyncStorage.setItem("username", data.data.user.username);
+        await AsyncStorage.setItem("photo_profile", data.data.user.photo_profile);
+        await AsyncStorage.setItem("token", data.data.token);
+    } else {
+      // console.log('pesertaLogin Error', data);
+    }
 
 
     return data;

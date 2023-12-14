@@ -23,7 +23,13 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-       AsyncStorage.clear();
+      //  AsyncStorage.clear();
+      AsyncStorage.setItem('uuid', "");
+       AsyncStorage.setItem('role', "");
+       AsyncStorage.setItem('id', "");
+       AsyncStorage.setItem('username', "");
+       AsyncStorage.setItem('photo_profile', "");
+       AsyncStorage.setItem('token', "");
       
       console.log('Semua item berhasil dihapus dari AsyncStorage.');
 
