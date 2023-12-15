@@ -12,11 +12,21 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { pesertaLogin } from "../Api/Login";
 import Password from "antd/es/input/Password";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useCoffeeCart } from "../context/CartContext";
+
+// import { useAuth } from '../context/AuthContext';
 
 // Additional dependencies in React Native may need different libraries or implementation
 
 const Login = ({ navigation }) => {
-  // const {navigate}    = useNavigation<NavigationProp<any>>();
+  const { isLoggedIn, setIsLoggedIn } = useCoffeeCart();
+
+  useEffect(() => {
+    if (isLoggedIn === true) {
+      navigation.navigate("Dashboard");
+    }
+    console.log("check login di login", isLoggedIn);
+  }, [isLoggedIn, navigation]);
 
   const [data, setData] = useState({
     username: "",
@@ -24,16 +34,9 @@ const Login = ({ navigation }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  //   useEffect(() => {
-  //     // Check for JWT token in AsyncStorage or SecureStorage in React Native
-  //     // Redirect to another screen if the token exists
-  //   }, []);
-
   const handleChange = (name, value) => {
     setData({ ...data, [name]: value });
   };
-
-  
 
   const { navigate } = useNavigation<NavigationProp<any>>();
 
@@ -42,24 +45,19 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     setIsLoading(true);
+
     try {
       const response = await pesertaLogin(data.username, data.password);
       console.log("username", data.username);
       console.log("pass", data.password);
 
       if (response && response.code == 200) {
+        setIsLoggedIn(true);
 
         // console.log(response);
         navigate("Dashboard");
         setIsLoading(false);
         const idString = JSON.stringify(response.data.user.id);
-
-        // AsyncStorage.setItem("uuid", response.data.user.uuid);
-        // AsyncStorage.setItem("role", response.data.user.role);
-        // AsyncStorage.setItem("id", idString);
-        // AsyncStorage.setItem("username", response.data.user.username);
-        // AsyncStorage.setItem("photo_profile", response.data.user.photo_profile);
-        // AsyncStorage.setItem("token", response.data.token);
       } else {
         Alert.alert("Gagal Login", "yang bener dong username sm passwordnya");
         setIsLoading(false);

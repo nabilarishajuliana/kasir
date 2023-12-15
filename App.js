@@ -11,7 +11,7 @@ import { OrientationLock } from "expo-screen-orientation";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { Nav, Drawerside } from "./Nav/Navigasi";
 import { CoffeeCartProvider } from "./context/CartContext";
-import { AuthProvider } from "./context/AuthContext";
+// import { AuthProvider } from "./context/AuthContext";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,9 +28,7 @@ export default function App() {
   return (
     <>
       <CoffeeCartProvider>
-        <AuthProvider>
           <Nav />
-        </AuthProvider>
       </CoffeeCartProvider>
     </>
   );

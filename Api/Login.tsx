@@ -60,6 +60,7 @@ const pesertaLogin = async (username: any, password: any) => {
         await AsyncStorage.setItem("username", data.data.user.username);
         await AsyncStorage.setItem("photo_profile", data.data.user.photo_profile);
         await AsyncStorage.setItem("token", data.data.token);
+        
     } else {
       // console.log('pesertaLogin Error', data);
     }

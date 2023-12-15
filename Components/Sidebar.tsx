@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, Image , } from "react-native";
 import { MenuOutlined } from "@ant-design/icons";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useCoffeeCart } from "../context/CartContext";
+
 
 // Import komponen atau library tambahan yang dibutuhkan di React Native
 
@@ -20,6 +22,8 @@ const Sidebar = () => {
   const { navigate } = useNavigation<NavigationProp<any>>();
 
   const [open, setOpen] = useState(true);
+  const { isLoggedIn, setIsLoggedIn } = useCoffeeCart();
+
 
   const handleLogout = async () => {
     try {
@@ -30,8 +34,11 @@ const Sidebar = () => {
        AsyncStorage.setItem('username', "");
        AsyncStorage.setItem('photo_profile', "");
        AsyncStorage.setItem('token', "");
+       
       
       console.log('Semua item berhasil dihapus dari AsyncStorage.');
+      setIsLoggedIn(false);
+
 
       navigate("Home" as any);
     } catch (error) {

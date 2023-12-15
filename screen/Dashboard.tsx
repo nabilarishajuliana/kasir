@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Dimensions,
   ActivityIndicator,
-  Button
+  Button,
+  BackHandler 
 } from "react-native";
 import CardMenu from "../Components/CardMenu"; // Sesuaikan dengan struktur folder Anda
 import { IMenu } from "../types/menu-types"; // Sesuaikan dengan struktur folder Anda
@@ -16,11 +17,13 @@ import RootLayout from "../Layout/RootLayout";
 import { FAB } from "react-native-paper";
 import RNRestart from 'react-native-restart';
 
+
 const DashboardScreen = () => {
   const [orientation, setOrientation] = useState("portrait"); // State untuk mengetahui orientasi layar
   const [dataMenu, setDataMenu] = useState<IMenu[]>([]);
   const [isLoading, setIsLoading] = useState(true); // State untuk mengetahui status loading
   const [token, setToken] = useState('');
+
 
 
   useEffect(() => {
@@ -41,10 +44,9 @@ const DashboardScreen = () => {
     return () => subscription.remove(); // Membersihkan event listener saat komponen di-unmount
   }, []);
 
-  const handleAppReload = () => {
-    RNRestart.restart();
-    };
+ 
 
+  const [nama, setNama] = useState('');
 
 
   useEffect(() => {
@@ -77,6 +79,29 @@ const DashboardScreen = () => {
 
     fetchData();
     console.log("data menu dashboard:", dataMenu);
+
+    // AsyncStorage.getItem('checkLogin') 
+    // .then(value => {
+    //   if (value !== null) {
+    //     setNama(value); // Menyimpan nilai ke state
+    //   } 
+    // })
+    // .catch(error => {
+    //   console.error(error);
+    // });
+    // console.log("chek login", nama);
+
+  }, []);
+
+  useEffect(() => {
+    const backAction = () => {
+      return true; // Return true agar perintah back tidak dijalankan
+    };
+  
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+  
+    return () => backHandler.remove(); // Membersihkan listener saat komponen di-unmount
+  
   }, []);
 
   return (

@@ -1,71 +1,54 @@
-import React, {
-    createContext,
-    useState,
-    useContext,
-    ReactNode,
-    Dispatch,
-    SetStateAction,
-  } from 'react';
-  
-  // Definisikan tipe data untuk informasi pengguna
-  interface UserData {
-    uuid: string | null;
-    role: string | null;
-    id: string | null;
-    username: string | null;
-    photo_profile: string | null;
-    token: string | null;
-  }
-  
-  // Buat tipe data untuk konteks autentikasi
-  interface AuthContextProps {
-    userData: UserData;
-    setLoginData: Dispatch<SetStateAction<UserData>>;
-  }
-  
-  // Buat konteks autentikasi
-  export const AuthContext = createContext<AuthContextProps>({
-    userData: {
-      uuid: null,
-      role: null,
-      id: null,
-      username: null,
-      photo_profile: null,
-      token: null,
-    },
-    setLoginData: () => null,
-  });
-  
-  // Definisikan tipe data untuk provider autentikasi
-  interface AuthProviderProps {
-    children: ReactNode;
-  }
-  
-  // Buat provider autentikasi
-  export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [userData, setUserData] = useState<UserData>({
-      uuid: null,
-      role: null,
-      id: null,
-      username: null,
-      photo_profile: null,
-      token: null,
-    });
-  
-    // Fungsi untuk mengatur data login
-    const setLoginData = (data: UserData) => {
-      setUserData(data);
-    };
-  
-    return (
-      <AuthContext.Provider value={{ userData, setLoginData }}>
-        {children}
-      </AuthContext.Provider>
-    );
+// AuthContext.tsx
+
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type AuthContextType = {
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider: React.FC = ({ }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
+
+  const checkLoginStatus = async () => {
+    try {
+      const value = await AsyncStorage.getItem('isLoggedIn');
+      if (value !== null) {
+        setIsLoggedIn(JSON.parse(value));
+      }
+    } catch (error) {
+      // Handle AsyncStorage errors
+    }
   };
-  
-  // Buat hook kustom untuk mengakses data autentikasi dari konteks
-  export const useAuth = () => {
-    return useContext(AuthContext);
+
+  const setLoginStatus = async (status: boolean) => {
+    try {
+      await AsyncStorage.setItem('isLoggedIn', JSON.stringify(status));
+      setIsLoggedIn(status);
+    } catch (error) {
+      // Handle AsyncStorage errors
+    }
   };
-  
+
+  const authContextValue: AuthContextType = {
+    isLoggedIn,
+    setIsLoggedIn: setLoginStatus,
+  };
+
+  return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>;
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};

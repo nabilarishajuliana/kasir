@@ -18,6 +18,9 @@ type CoffeeCartContext = {
   removeFromCart: (id: number) => void;
   cartQuantity: number;
   cartItems: CartItem[];
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  
 };
 
 const CoffeeCartContext = createContext({} as CoffeeCartContext);
@@ -30,6 +33,9 @@ export const CoffeeCartProvider: React.FC<CoffeeCartProviderProps> = ({
   children,
 }: CoffeeCartProviderProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Contoh inisialisasi
+
+ 
 
   const cartQuantity = cartItems.reduce(
     (jumlah, item) => item.jumlah + jumlah,
@@ -90,6 +96,9 @@ export const CoffeeCartProvider: React.FC<CoffeeCartProviderProps> = ({
         removeFromCart,
         cartQuantity,
         cartItems,
+        isLoggedIn,
+        setIsLoggedIn,
+        
       }}
     >
       {children}
