@@ -7,6 +7,7 @@ import { createNavigationContainerRef } from "@react-navigation/native";
 import Login from "../screen/Login";
 import DashboardScreen from "../screen/Dashboard";
 import ListTransaksi from "../screen/ListTransaksi";
+import Transaksi from "../screen/Transaksi";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { OrientationLock } from "expo-screen-orientation";
 import * as ScreenOrientation from "expo-screen-orientation";
@@ -44,6 +45,11 @@ const Nav = () => {
               options={{
                 headerBackVisible: false, 
               }}
+            />
+            <Stack.Screen
+              name="Transaksi"
+              component={Transaksi}
+              
             />
           </Stack.Navigator>
         </NavigationContainer>

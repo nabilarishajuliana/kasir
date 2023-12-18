@@ -4,6 +4,7 @@ import { MenuOutlined } from "@ant-design/icons";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCoffeeCart } from "../context/CartContext";
+import { Icon, MD3Colors } from 'react-native-paper';
 
 
 // Import komponen atau library tambahan yang dibutuhkan di React Native
@@ -127,9 +128,14 @@ const Sidebar = () => {
           borderTopColor: "lightgrey", // Sesuaikan dengan warna yang diinginkan
         }}
         onPress={handleLogout}
-      >
+      ><Icon
+      source="logout"
+      color={MD3Colors.error50}
+      size={25}
+      
+    />
         
-         <Text>Logout</Text>
+         <Text style={{marginLeft:5,fontWeight: "bold",color:MD3Colors.error50}}>Logout</Text>
       </TouchableOpacity>}
     </View>
   );
