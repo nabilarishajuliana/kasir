@@ -56,7 +56,7 @@ const pesertaLogin = async (username: any, password: any) => {
     if (response ) {
       await AsyncStorage.setItem("uuid", data.data.user.uuid);
       await AsyncStorage.setItem("role", data.data.user.role);
-        // AsyncStorage.setItem("id", idString);
+      await AsyncStorage.setItem('id', data.data.user.id.toString()); 
         await AsyncStorage.setItem("username", data.data.user.username);
         await AsyncStorage.setItem("photo_profile", data.data.user.photo_profile);
         await AsyncStorage.setItem("token", data.data.token);

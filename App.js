@@ -11,7 +11,10 @@ import { OrientationLock } from "expo-screen-orientation";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { Nav, Drawerside } from "./Nav/Navigasi";
 import { CoffeeCartProvider } from "./context/CartContext";
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider } from '@ui-kitten/components';
 // import { AuthProvider } from "./context/AuthContext";
+import { PaperProvider } from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,9 +30,13 @@ export default function App() {
 
   return (
     <>
+    <PaperProvider>
       <CoffeeCartProvider>
           <Nav />
       </CoffeeCartProvider>
+    </PaperProvider>
+        
+      
     </>
   );
 }
