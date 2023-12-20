@@ -57,7 +57,7 @@ const Login = ({ navigation }) => {
         // console.log(response);
         navigate("Dashboard");
         setIsLoading(false);
-        const idString = JSON.stringify(response.data.user.id);
+        // const idString = JSON.stringify(response.data.user.id);
       } else {
         Alert.alert("Gagal Login", "yang bener dong username sm passwordnya");
         setIsLoading(false);

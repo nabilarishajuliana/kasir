@@ -4,10 +4,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const BASE_URL = 'https://api-cafe-ukk.vercel.app/v1';
 
 
-const transaksi = async (dataOrder:any) => {
+const saveTransaksi = async (dataOrder) => {
     const token = await AsyncStorage.getItem("token");
 
-  try {
+  try { 
     const response = await fetch(`https://api-cafe-ukk.vercel.app/v1/transaksi`, {
       method: 'POST',
       headers: {
@@ -15,20 +15,18 @@ const transaksi = async (dataOrder:any) => {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
-      body: JSON.stringify({
-        dataOrder
-      }),
+      body: JSON.stringify(dataOrder),
     });
 
     const data = await response.json();
-    console.log("transaksinya",data);
+    // console.log("transaksinya",data);
 
-    if (response ) {
+    // if (response ) {
       
         
-    } else {
-      // console.log('pesertaLogin Error', data);
-    }
+    // } else {
+    //   // console.log('pesertaLogin Error', data);
+    // }
 
 
     return data;
@@ -42,4 +40,4 @@ const transaksi = async (dataOrder:any) => {
     }
   };
 };
-export {transaksi};
+export {saveTransaksi};

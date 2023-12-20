@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { TextInput, Divider } from "react-native-paper";
 import { useCoffeeCart } from "../context/CartContext";
@@ -17,24 +18,48 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getMeja } from "../Api/GetMeja";
 // import { PaperSelect } from "react-native-paper-select";
 import { SelectList } from "react-native-dropdown-select-list";
+import { saveTransaksi } from "../Api/SaveTransaksi";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+
 
 function Transaksi() {
-  const { cartItems } = useCoffeeCart(); // Menggunakan useCoffeeCart disini
+  const { cartItems } = useCoffeeCart(); 
+  // Menggunakan useCoffeeCart disini
   const [menu, setMenu] = React.useState<IMenu[] | null>(null);
   const [meja, setMeja] = React.useState<IMeja[] | null>(null);
   const [text, setText] = useState("");
   const [userID, setUserID] = useState("");
-  const [selected, setSelected] = React.useState(0);
+  const [check, setCheck] = React.useState(true);
   const [dataOrder, setDataOrder] = React.useState({
     nama_pelanggan: "",
-    status: "belum-lunas",
+    status: "lunas",
     tgl_transaksi: new Date().toISOString().split("T")[0],
-    userId: parseInt(userID),
-    mejaId: selected,
+    userId: 0,
+    mejaId: 0,
     detailTransaksi: cartItems,
   });
+  const { navigate } = useNavigation<NavigationProp<any>>();
+  const [isLoading, setIsLoading] = useState(false);
+
+
   // const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | IndexPath[]>([]);
   // const [value, setValue] = React.useState("first");
+
+  // const { userData } = useAuth();
+
+  useEffect(() => {
+    // Mengambil data dari AsyncStorage saat komponen di-mount
+    AsyncStorage.getItem('id')
+      .then(value => {
+        if (value !== null) {
+          handleChange(parseInt(value), "userId") // Menyimpan nilai ke state  
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+      console.log("order data",dataOrder )
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,17 +74,9 @@ function Transaksi() {
 
     fetchData();
     fetchDataMeja();
-    console.log("select id meja", selected);
+    // console.log("select id meja", selected);
 
-    AsyncStorage.getItem("id")
-      .then((value) => {
-        if (value !== null) {
-          setUserID(value);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+   
   }, []);
 
   let totalSemua = 0;
@@ -87,7 +104,32 @@ function Transaksi() {
         key: meja.id, // Sesuaikan dengan tipe data yang diperlukan
         value: meja.nomor_meja,
       }))
-    : null;
+    : ({disabled:meja===null});
+
+
+    const handleSubmit  = async () => {
+      setIsLoading(true)
+  
+      try {
+        const response = await saveTransaksi(dataOrder);
+        console.log("Response transaksi", response);
+        // console.log("data order",dataOrder)
+  
+        if ( response && response.code === 201) {
+          setIsLoading(false)
+          // console.log(response);
+          navigate("List");
+          alert("transaksi berhasil");
+
+        } else {
+          setIsLoading(false)
+
+          alert("Gagal transaksi");
+        }
+      } catch (error) {
+        // console.log(error);
+      }
+    };
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -118,6 +160,7 @@ function Transaksi() {
               marginBottom: 20,
               marginTop: 10,
               borderRadius: 30,
+              color:"black"
             }}
             outlineStyle={{ borderRadius: 10 }}
           />
@@ -156,15 +199,15 @@ function Transaksi() {
             /> */}
 
             <SelectList
-              setSelected={setSelected}
+              setSelected={(value) => handleChange(value, "mejaId")}
               data={mejaArray}
-              onSelect={() => alert(selected)}
+              // onSelect={() => alert(selected)}
               boxStyles={{ borderColor: "orange" }}
               search={false} 
             />
           </View>
           <Text
-            style={{
+            style={{ 
               // fontSize: 22,
               // fontWeight: "bold",
               // color: "black",
@@ -215,8 +258,12 @@ function Transaksi() {
         </ListItem.Content>
       </ListItem>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Submit</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+      {isLoading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text style={{ color: "white" }}>submit</Text>
+          )}
       </TouchableOpacity>
     </View>
   );

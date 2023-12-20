@@ -27,15 +27,13 @@ const getMeja = async (): Promise<IMeja[]> => {
         nomor_meja: data.nomor_meja,
         status: data.status,
       }));
-      console.log("result meja",result)
+      // console.log("result meja",result)
       return result;
     } else {
-      // Jika responseData.data bukan array, tangani kasus ini sesuai kebutuhan aplikasi Anda
-      // Misalnya, Anda dapat menangani jika responsenya bukan dalam bentuk array
+      
       throw new Error('Responsenya bukan dalam bentuk array');
     }
   } catch (error) {
-    // Tangani error di sini
     if (error instanceof Error) {
       console.error(error.message);
     } else {
