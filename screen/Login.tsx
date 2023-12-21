@@ -120,7 +120,7 @@ const Login = ({ navigation }) => {
           )}
         </TouchableOpacity>
       </View>
-      <Text>Develop on 2 DAY</Text>
+      <Text style={{paddingTop:10, color:"gray",fontStyle:"italic"}}>© Nabilarisha01</Text>
     </View>
   );
 };

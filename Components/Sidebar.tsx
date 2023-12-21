@@ -93,7 +93,7 @@ const Sidebar = () => {
   </View>
 </TouchableOpacity>
         {open && (
-          <Text style={{ fontWeight: "bold", fontSize: 20 }}>Coffee</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 20 }}>Kasir</Text>
         )}
       </View>
       <View style={{ marginTop: 20 }}>

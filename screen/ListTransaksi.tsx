@@ -16,182 +16,31 @@ import * as React from "react";
 // import { Table, TableWrapper, Row,Cell  } from "react-native-table-component";
 import { DataTable } from "react-native-paper";
 // import { Col, Row, Grid } from "react-native-easy-grid";
+import { ListItem } from '@rneui/themed';
 
-// INI YG PAKAI "react-native-table-component"
-
-// const ListTransaksi = () => {
-//   const tableHead = [
-//     "Invoice",
-//     "Nama Pembeli",
-//     "Petugas",
-//     "Tanggal Transaksi",
-//     "Total Harga",
-
-//   ];
-//   const widthArr = [160, 160, 160, 160, 160];
-
-//   const [transaksiData, setTransaksiData] = React.useState([]);
-
-//   const tableData = [];
-//   for (let i = 0; i < 30; i += 1) {
-//     const rowData = [];
-//     for (let j = 1; j <= 9; j += 1) {
-//       rowData.push(`${i}${j}`);
-//     }
-//     tableData.push(rowData);
-//   }
-
-//   React.useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await getTransaksi(); // Panggil fungsi getTransaksi dari API
-//         console.log("ini response",response);
-
-//         setTransaksiData(
-//           Array.isArray(response.data)
-//             ? response.data
-//             : [response.data]
-//         );
-//         console.log("ini transaksidata",transaksiData);
-
-//       } catch (error) {
-//         console.error('Error fetching data:', error);
-//       }
-//     };
-
-//     fetchData();
-
-//   }, []);
-//   return (
-//     <>
-//       <RootLayout>
-//         <View style={styles.container}>
-//           <Text style={styles.title}>List Transaksi</Text>
-//           <ScrollView horizontal={true}>
-//             <View>
-//               <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
-//                 <Row
-//                   data={tableHead}
-//                   widthArr={widthArr}
-//                   style={styles.header}
-//                   textStyle={styles.text}
-//                 />
-//               </Table>
-//               <ScrollView style={styles.dataWrapper}>
-//                 <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
-//                   {tableData.map((rowData, index) => (
-//                     <Row
-//                       key={index}
-//                       data={rowData}
-//                       widthArr={widthArr}
-//                       style={[
-//                         styles.row,
-//                         index % 2 && { backgroundColor: "#F7F6E7" },
-//                       ]}
-//                       textStyle={styles.text}
-//                     />
-//                   ))}
-//                 </Table>
-//               </ScrollView>
-//             </View>
-//           </ScrollView>
-//         </View>
-//       </RootLayout>
-//     </>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#f0f0f0",
-//     paddingVertical: 20,
-//     paddingHorizontal: 10,
-//     alignItems: "center",
-//   },
-//   title: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     marginTop: 20,
-//   },
-//   video: {
-//     width: 300,
-//     height: 200,
-//     marginTop: 20,
-//   },
-//   header: { height: 50, backgroundColor: "#537791" },
-//   text: { textAlign: "center", fontWeight: "100" },
-//   dataWrapper: { marginTop: -1 },
-//   row: { height: 40, backgroundColor: "#E7E6E1" },
-// });
-
-// export default ListTransaksi;
-
-//INI YANG PAKAI "react-native-paper"
 
 const ListTransaksi = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState(null);
   const [page, setPage] = React.useState<number>(0);
   const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
-  const [transaksiData, setTransaksiData] = React.useState([]);
+  const [transaksiData, setTransaksiData] = React.useState<ITransaksi[]>([])
   const [isLoading, setIsLoading] = React.useState(true); // State untuk mengetahui status loading
 
-  const [itemsPerPage, onItemsPerPageChange] = React.useState(
-    numberOfItemsPerPageList[0]
-  );
-
-  const [items] = React.useState([
-    {
-      key: 1,
-      nama_pembeli: "risa",
-      nama_kasir: "kasir",
-      tgl: "2023-09-04",
-      total: 400000,
-      invoice: "ABCDE",
-    },
-    {
-      key: 2,
-      nama_pembeli: "kaka",
-      nama_kasir: "kasir",
-      tgl: "2023-09-04",
-      total: 160000,
-      invoice: "ABCDE",
-    },
-    {
-      key: 3,
-      nama_pembeli: "anton",
-      nama_kasir: "kasir",
-      tgl: "2023-09-04",
-      total: 100000,
-      invoice: "ABCDE",
-    },
-    {
-      key: 4,
-      nama_pembeli: "jamal",
-      nama_kasir: "kasir",
-      tgl: "2023-09-04",
-      total: 10000,
-      invoice: "ABCDE",
-    },
-  ]);
-
-  const from = page * itemsPerPage;
-  const to = Math.min((page + 1) * itemsPerPage, items.length);
-
-  React.useEffect(() => {
-    setPage(0);
-  }, [itemsPerPage]);
 
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getTransaksi(); // Panggil fungsi getTransaksi dari API
-        // console.log("ini response", response);
+        const fetchedTransaksiData: ITransaksi[] = response.data;
 
-        setTransaksiData(
-          response.data
-        );
+        fetchedTransaksiData.sort((a, b) => {
+          const dateA = new Date(a.tgl_transaksi);
+          const dateB = new Date(b.tgl_transaksi);
+          return dateB.getTime() - dateA.getTime();
+        });
+
+      setTransaksiData(fetchedTransaksiData);
         setIsLoading(false); // Set loading menjadi false setelah data selesai diambil
        
         if (transaksiData) {
@@ -320,22 +169,18 @@ const ListTransaksi = () => {
                 <DataTable.Title style={{ paddingLeft: 10 }}>
                   Pembeli
                 </DataTable.Title>
-                {/* <DataTable.Title style={{ paddingLeft: 10 }}>
-                  Petugas
-                </DataTable.Title> */}
+               
                 <DataTable.Title style={{ paddingLeft: 10 }}>
                   Tanggal Transaksi
                 </DataTable.Title>
-                {/* <DataTable.Title style={{ paddingLeft: 10 }}>
-                  Total
-                </DataTable.Title> */}
+                
                 <DataTable.Title style={{ paddingLeft: 10 }}>
                   Action
                 </DataTable.Title>
               </DataTable.Header>
 
-              {transaksiData.map((item) => (
-                <DataTable.Row key={item.key}>
+              {transaksiData.map((item,index) => (
+                <DataTable.Row key={index}>
                   <DataTable.Cell style={{ paddingLeft: 0 }}>
                     {item.resi}
                   </DataTable.Cell>
@@ -454,6 +299,121 @@ const styles = StyleSheet.create({
 });
 
 export default ListTransaksi;
+
+
+// INI YG PAKAI "react-native-table-component"
+
+// const ListTransaksi = () => {
+//   const tableHead = [
+//     "Invoice",
+//     "Nama Pembeli",
+//     "Petugas",
+//     "Tanggal Transaksi",
+//     "Total Harga",
+
+//   ];
+//   const widthArr = [160, 160, 160, 160, 160];
+
+//   const [transaksiData, setTransaksiData] = React.useState([]);
+
+//   const tableData = [];
+//   for (let i = 0; i < 30; i += 1) {
+//     const rowData = [];
+//     for (let j = 1; j <= 9; j += 1) {
+//       rowData.push(`${i}${j}`);
+//     }
+//     tableData.push(rowData);
+//   }
+
+//   React.useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const response = await getTransaksi(); // Panggil fungsi getTransaksi dari API
+//         console.log("ini response",response);
+
+//         setTransaksiData(
+//           Array.isArray(response.data)
+//             ? response.data
+//             : [response.data]
+//         );
+//         console.log("ini transaksidata",transaksiData);
+
+//       } catch (error) {
+//         console.error('Error fetching data:', error);
+//       }
+//     };
+
+//     fetchData();
+
+//   }, []);
+//   return (
+//     <>
+//       <RootLayout>
+//         <View style={styles.container}>
+//           <Text style={styles.title}>List Transaksi</Text>
+//           <ScrollView horizontal={true}>
+//             <View>
+//               <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
+//                 <Row
+//                   data={tableHead}
+//                   widthArr={widthArr}
+//                   style={styles.header}
+//                   textStyle={styles.text}
+//                 />
+//               </Table>
+//               <ScrollView style={styles.dataWrapper}>
+//                 <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
+//                   {tableData.map((rowData, index) => (
+//                     <Row
+//                       key={index}
+//                       data={rowData}
+//                       widthArr={widthArr}
+//                       style={[
+//                         styles.row,
+//                         index % 2 && { backgroundColor: "#F7F6E7" },
+//                       ]}
+//                       textStyle={styles.text}
+//                     />
+//                   ))}
+//                 </Table>
+//               </ScrollView>
+//             </View>
+//           </ScrollView>
+//         </View>
+//       </RootLayout>
+//     </>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#f0f0f0",
+//     paddingVertical: 20,
+//     paddingHorizontal: 10,
+//     alignItems: "center",
+//   },
+//   title: {
+//     fontSize: 24,
+//     fontWeight: "bold",
+//     marginTop: 20,
+//   },
+//   video: {
+//     width: 300,
+//     height: 200,
+//     marginTop: 20,
+//   },
+//   header: { height: 50, backgroundColor: "#537791" },
+//   text: { textAlign: "center", fontWeight: "100" },
+//   dataWrapper: { marginTop: -1 },
+//   row: { height: 40, backgroundColor: "#E7E6E1" },
+// });
+
+// export default ListTransaksi;
+
+//INI YANG PAKAI "react-native-paper"
+
+
 
 //INI YANG PAKAI "react-native-easy-grid"
 
