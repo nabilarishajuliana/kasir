@@ -4,10 +4,10 @@
     "slug": "kasir",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/foto7.png",
+    "icon": "./assets/foto9.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/foto6.png",
+      "image": "./assets/foto8.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/foto9.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.nabilarishajuliana.kasir"

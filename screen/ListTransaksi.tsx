@@ -16,17 +16,15 @@ import * as React from "react";
 // import { Table, TableWrapper, Row,Cell  } from "react-native-table-component";
 import { DataTable } from "react-native-paper";
 // import { Col, Row, Grid } from "react-native-easy-grid";
-import { ListItem } from '@rneui/themed';
-
+import { List, Card, Button } from "react-native-paper";
 
 const ListTransaksi = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState(null);
   const [page, setPage] = React.useState<number>(0);
   const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
-  const [transaksiData, setTransaksiData] = React.useState<ITransaksi[]>([])
+  const [transaksiData, setTransaksiData] = React.useState<ITransaksi[]>([]);
   const [isLoading, setIsLoading] = React.useState(true); // State untuk mengetahui status loading
-
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -40,19 +38,19 @@ const ListTransaksi = () => {
           return dateB.getTime() - dateA.getTime();
         });
 
-      setTransaksiData(fetchedTransaksiData);
+        setTransaksiData(fetchedTransaksiData);
         setIsLoading(false); // Set loading menjadi false setelah data selesai diambil
-       
-        if (transaksiData) {
-          console.log("transaksi data", transaksiData);
-          transaksiData.map((data, index) => {
-            console.log(`data ${index} :` + JSON.stringify(data));
-            console.log(
-              `data detail transaksi untuk transaksi ke- ${index} :` +
-                JSON.stringify(data.DetailTransaksi)
-            );
-          });
-        }
+
+        // if (transaksiData) {
+        //   console.log("transaksi data", transaksiData);
+        //   transaksiData.map((data, index) => {
+        //     console.log(`data ${index} :` + JSON.stringify(data));
+        //     console.log(
+        //       `data detail transaksi untuk transaksi ke- ${index} :` +
+        //         JSON.stringify(data.DetailTransaksi)
+        //     );
+        //   });
+        // }
       } catch (error) {
         console.error("Error fetching data:", error);
         setIsLoading(false); // Pastikan loading dihentikan jika terjadi kesalahan
@@ -76,77 +74,73 @@ const ListTransaksi = () => {
             }}
           >
             {/* <ScrollView> */}
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  {selectedTransaction && (
-                    <>
-                      <Text
-                        style={[{ fontWeight: "bold", textAlign: "center" }]}
-                      >
-                        Detail Transaksi
-                      </Text>
-                      <Text
-                        style={[
-                          styles.modalText,
-                          { fontWeight: "400", fontSize: 12, opacity: 0.5 },
-                        ]}
-                      >
-                        {" "}
-                        Invoice: {selectedTransaction.resi}
-                      </Text>
-                      <Text
-                        style={{
-                          textAlign: "left",
-                          borderTopWidth: 2,
-                          paddingTop: 20,
-                        }}
-                      >
-                        Nama Pembeli: {selectedTransaction.nama_pelanggan}
-                      </Text>
-                      <Text style={{ textAlign: "left" }}>
-                        Nama Kasir: {selectedTransaction.nama_kasir}
-                      </Text>
-                      <Text style={{ textAlign: "left" }}>
-                        Tanggal Transaksi: {selectedTransaction.tgl_transaksi}
-                      </Text>
-                      <Text style={{ textAlign: "left" }}>
-                        Total: {selectedTransaction.total_harga.toLocaleString('id-ID')}
-                      </Text>
-                      <Text
-                        style={{
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          borderBottomWidth: 2,
-                          paddingVertical: 10,
-                          marginBottom: 10,
-                        }}
-                      >
-                        Pesanan:
-                      </Text>
-                      {selectedTransaction.DetailTransaksi.map(
-                        (item, index) => (
-                          <>
-                            <Text style={{ textAlign: "left" }}>
-                              {"<3 "} {item.nama_menu} = {item.jumlah}
-                            </Text>
-                          </>
-                        )
-                      )}
-                      <Text style={{ marginBottom: 10 }}></Text>
-                    </>
-                  )}
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => {
-                      setSelectedTransaction(null);
-                      setModalVisible(!modalVisible);
-                    }}
-                  >
-                    <Text style={styles.textStyle}>Hide Modal</Text>
-                  </Pressable>
-                  
-                </View>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                {selectedTransaction && (
+                  <>
+                    <Text style={[{ fontWeight: "bold", textAlign: "center" }]}>
+                      Detail Transaksi
+                    </Text>
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { fontWeight: "400", fontSize: 12, opacity: 0.5 },
+                      ]}
+                    >
+                      {" "}
+                      Invoice: {selectedTransaction.resi}
+                    </Text>
+                    <Text
+                      style={{
+                        textAlign: "left",
+                        borderTopWidth: 2,
+                        paddingTop: 20,
+                      }}
+                    >
+                      Nama Pembeli: {selectedTransaction.nama_pelanggan}
+                    </Text>
+                    <Text style={{ textAlign: "left" }}>
+                      Nama Kasir: {selectedTransaction.nama_kasir}
+                    </Text>
+                    <Text style={{ textAlign: "left" }}>
+                      Tanggal Transaksi: {selectedTransaction.tgl_transaksi}
+                    </Text>
+                    <Text style={{ textAlign: "left" }}>
+                      Total:{" "}
+                      {selectedTransaction.total_harga.toLocaleString("id-ID")}
+                    </Text>
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        borderBottomWidth: 2,
+                        paddingVertical: 10,
+                        marginBottom: 10,
+                      }}
+                    >
+                      Pesanan:
+                    </Text>
+                    {selectedTransaction.DetailTransaksi.map((item, index) => (
+                      <>
+                        <Text style={{ textAlign: "left" }}>
+                          {"<3 "} {item.nama_menu} = {item.jumlah}
+                        </Text>
+                      </>
+                    ))}
+                    <Text style={{ marginBottom: 10 }}></Text>
+                  </>
+                )}
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => {
+                    setSelectedTransaction(null);
+                    setModalVisible(!modalVisible);
+                  }}
+                >
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+                </Pressable>
               </View>
+            </View>
             {/* </ScrollView> */}
           </Modal>
         </View>
@@ -154,13 +148,61 @@ const ListTransaksi = () => {
         <View style={styles.container}>
           <Text style={styles.title}>List Transaksi</Text>
           {isLoading ? (
-          <ActivityIndicator
-          size="large"
-          color="orange"
-          style={{ flex: 1 ,marginTop:10}}
-        />
-        ) : (
-          <ScrollView horizontal>
+            <ActivityIndicator
+              size="large"
+              color="orange"
+              style={{ flex: 1, marginTop: 10 }}
+            />
+          ) : (
+            <>
+              {/* <List.Section style={styles.container}> */}
+              <View style={styles.container}>
+                {transaksiData.map((item, index) => (
+                  // <List.Item
+                  //   title={item.resi}
+                  //   description={item.tgl_transaksi}
+                  //   right={() => (
+                  // <Pressable
+                  //   style={[styles.button, styles.buttonOpen]}
+                  //   // onPress={() => setModalVisible(true)}
+                  //   onPress={() => {
+                  //     setSelectedTransaction(item);
+                  //     setModalVisible(true);
+                  //   }}
+                  // >
+                  //   <Text style={styles.textStyle}>Detail</Text>
+                  // </Pressable>
+                  //   )}
+                  // />
+                  <Card style={styles.card}>
+                    <Card.Content style={styles.cardContent}>
+                      <Text style={styles.textCard}>{item.resi}</Text>
+                      <Text style={{color:"grey"}}>{item.tgl_transaksi}</Text>
+                    </Card.Content>
+                    <Card.Content >
+                      <Text>Pembeli : {item.nama_pelanggan}</Text>
+                      <Text>Kasir : {item.nama_kasir}</Text>
+
+                    </Card.Content>
+                    <Card.Actions>
+                      <Pressable
+                        style={[styles.button, styles.buttonOpen]}
+                        // onPress={() => setModalVisible(true)}
+                        onPress={() => {
+                          setSelectedTransaction(item);
+                          setModalVisible(true);
+                        }}
+                      >
+                        <Text style={styles.textStyle}>Detail</Text>
+                      </Pressable>
+                    </Card.Actions>
+                  </Card>
+                ))}
+              </View>
+
+              {/* </List.Section> */}
+
+              {/* <ScrollView horizontal>
             <DataTable>
               <DataTable.Header>
                 <DataTable.Title style={{ paddingLeft: 0 }}>
@@ -187,15 +229,11 @@ const ListTransaksi = () => {
                   <DataTable.Cell style={{ paddingLeft: 10 }}>
                     {item.nama_pelanggan}
                   </DataTable.Cell>
-                  {/* <DataTable.Cell style={{ paddingLeft: 10 }}>
-                    {item.nama_kasir}
-                  </DataTable.Cell> */}
+                
                   <DataTable.Cell style={{ paddingLeft: 10 }}>
                     {item.tgl_transaksi}
                   </DataTable.Cell>
-                  {/* <DataTable.Cell style={{ paddingLeft: 10 }} numeric>
-                    {item.total_harga}
-                  </DataTable.Cell> */}
+                 
                   <DataTable.Cell style={{ paddingLeft: 10 }}>
                     <Pressable
                       style={[styles.button, styles.buttonOpen]}
@@ -211,19 +249,10 @@ const ListTransaksi = () => {
                 </DataTable.Row>
               ))}
 
-              {/* <DataTable.Pagination
-              page={page}
-              numberOfPages={Math.ceil(items.length / itemsPerPage)}
-              onPageChange={(page) => setPage(page)}
-              label={`${from + 1}-${to} of ${items.length}`}
-              numberOfItemsPerPageList={numberOfItemsPerPageList}
-              numberOfItemsPerPage={itemsPerPage}
-              onItemsPerPageChange={onItemsPerPageChange}
-              showFastPaginationControls
-              selectPageDropdownLabel={"Rows per page"}
-            /> */}
+             
             </DataTable>
-          </ScrollView>
+          </ScrollView> */}
+            </>
           )}
         </View>
       </RootLayout>
@@ -232,8 +261,12 @@ const ListTransaksi = () => {
 };
 
 const styles = StyleSheet.create({
+  card: {
+    marginVertical: 7,
+    width: 300,
+    backgroundColor:"white",
+  },
   container: {
-    flex: 1,
     backgroundColor: "#f0f0f0",
     paddingVertical: 20,
     paddingHorizontal: 10,
@@ -296,10 +329,18 @@ const styles = StyleSheet.create({
     textAlign: "left",
     paddingTop: 20,
   },
+  cardContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center', // Opsional, untuk penempatan vertikal jika diperlukan
+    paddingBottom:5,
+  },
+  textCard:{
+    fontWeight:"bold"
+  },
 });
 
 export default ListTransaksi;
-
 
 // INI YG PAKAI "react-native-table-component"
 
@@ -412,8 +453,6 @@ export default ListTransaksi;
 // export default ListTransaksi;
 
 //INI YANG PAKAI "react-native-paper"
-
-
 
 //INI YANG PAKAI "react-native-easy-grid"
 

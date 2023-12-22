@@ -5,6 +5,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCoffeeCart } from "../context/CartContext";
 import { Icon, MD3Colors } from 'react-native-paper';
+import { orange100 } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 
 // Import komponen atau library tambahan yang dibutuhkan di React Native
@@ -82,14 +83,19 @@ const Sidebar = () => {
       width: 36,
       height: 36,
       borderRadius: 18,
-      backgroundColor: "white", // Lingkaran warna orange di dalam tombol putih
+      // backgroundColor: "white", // Lingkaran warna orange di dalam tombol putih
       justifyContent: "center",
       alignItems: "center",
     }}
   >
-    <Text style={{ color: "orange", fontWeight: "bold", fontSize: 20 }}>
+    {/* <Text style={{ color: "orange", fontWeight: "bold", fontSize: 20 }}>
       K
-    </Text>
+    </Text> */}
+     <Icon
+    source="menu"
+    color="white"
+    size={25}
+  />
   </View>
 </TouchableOpacity>
         {open && (

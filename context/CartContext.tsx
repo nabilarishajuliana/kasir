@@ -20,6 +20,7 @@ type CoffeeCartContext = {
   cartItems: CartItem[];
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  clearCartItems: () => void;
   
 };
 
@@ -36,6 +37,9 @@ export const CoffeeCartProvider: React.FC<CoffeeCartProviderProps> = ({
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Contoh inisialisasi
 
  
+  function clearCartItems(): void {
+    setCartItems([]); // Mengosongkan cartItems dengan array kosong
+  }
 
   const cartQuantity = cartItems.reduce(
     (jumlah, item) => item.jumlah + jumlah,
@@ -98,7 +102,7 @@ export const CoffeeCartProvider: React.FC<CoffeeCartProviderProps> = ({
         cartItems,
         isLoggedIn,
         setIsLoggedIn,
-        
+        clearCartItems,
       }}
     >
       {children}

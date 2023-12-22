@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  RefreshControl,
 } from "react-native";
 import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
@@ -14,6 +15,18 @@ import ButtonFloat from "../Components/ButtonFloat";
 
 const RootLayout = ({ children }) => {
   const { cartItems } = useCoffeeCart(); // Menggunakan useCoffeeCart disini
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    // Logika refresh, misalnya:
+    setRefreshing(true);
+    // Lakukan operasi refresh di sini, kemudian set refreshing menjadi false ketika selesai
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000); // Contoh, tunggu 2 detik sebelum menghentikan indikator refreshing
+  };
+
+
  
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -23,7 +36,11 @@ const RootLayout = ({ children }) => {
           <View style={styles.sidebar}>
             <Sidebar />
           </View>
-          <ScrollView style={styles.content}>
+          <ScrollView style={styles.content} contentContainerStyle={{ flexGrow: 1 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
             <Header />
             <View>{children}</View>
           </ScrollView>

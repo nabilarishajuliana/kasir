@@ -7,7 +7,8 @@ import {
   Dimensions,
   ActivityIndicator,
   Button,
-  BackHandler 
+  BackHandler,
+  RefreshControl
 } from "react-native";
 import CardMenu from "../Components/CardMenu"; // Sesuaikan dengan struktur folder Anda
 import { IMenu } from "../types/menu-types"; // Sesuaikan dengan struktur folder Anda
@@ -24,8 +25,7 @@ const DashboardScreen = () => {
   const [isLoading, setIsLoading] = useState(true); // State untuk mengetahui status loading
   const [token, setToken] = useState('');
 
-
-
+  
   useEffect(() => {
     // Mendeteksi orientasi saat komponen dipasang
     const initial = () => {

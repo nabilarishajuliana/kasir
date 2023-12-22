@@ -24,6 +24,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 function Transaksi() {
   const { cartItems } = useCoffeeCart(); 
+  const { clearCartItems } = useCoffeeCart();
   // Menggunakan useCoffeeCart disini
   const [menu, setMenu] = React.useState<IMenu[] | null>(null);
   const [meja, setMeja] = React.useState<IMeja[] | null>(null);
@@ -117,6 +118,7 @@ function Transaksi() {
   
         if ( response && response.code === 201) {
           setIsLoading(false)
+          clearCartItems();
           // console.log(response);
           navigate("List");
           alert("transaksi berhasil");
@@ -220,7 +222,7 @@ function Transaksi() {
           >
             Pesanan :
           </Text>
-          {cartItems.map((item, index) => {
+          {/* {cartItems.map((item, index) => {
             const menuItem = menu?.find((m) => m.id === item.menuId);
             //   console.log("menu item",menuItem);
 
@@ -244,7 +246,39 @@ function Transaksi() {
                 </ListItem.Content>
               </ListItem>
             );
-          })}
+          })} */}
+
+{cartItems.length === 0 ? (
+    <ActivityIndicator size="large" color="orange" />
+  ) : (
+    <>
+      
+      {cartItems.map((item, index) => {
+        const menuItem = menu?.find((m) => m.id === item.menuId);
+        if (!menuItem) {
+          return null;
+        }
+
+        const totalHargaItem = item.jumlah * item.harga;
+        totalSemua += totalHargaItem;
+
+        return (
+          <ListItem key={index}>
+            <ListItem.Content>
+              <ListItem.Title style={{ fontSize: 14 }}>
+                {menuItem.nama_menu}
+              </ListItem.Title>
+              <ListItem.Subtitle>
+                Qty: {item.jumlah} , Harga: Rp
+                {totalHargaItem.toLocaleString("id-ID")}
+              </ListItem.Subtitle>
+            </ListItem.Content>
+          </ListItem>
+        );
+      })}
+    </>
+  )}
+
         </View>
       </ScrollView>
       <ListItem>
