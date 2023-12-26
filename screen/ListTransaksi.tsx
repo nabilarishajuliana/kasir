@@ -8,7 +8,7 @@ import {
   Alert,
   ActivityIndicator,
 } from "react-native";
-import { getTransaksi } from "../Api/GetTransaksi";
+import { getTransaksi, getFilterTransaksi } from "../Api/GetTransaksi";
 import { ITransaksi } from "../types/transaksi-types";
 import { WebView } from "react-native-webview";
 import RootLayout from "../Layout/RootLayout";
@@ -16,7 +16,7 @@ import * as React from "react";
 // import { Table, TableWrapper, Row,Cell  } from "react-native-table-component";
 import { DataTable } from "react-native-paper";
 // import { Col, Row, Grid } from "react-native-easy-grid";
-import { List, Card, Button } from "react-native-paper";
+import { List, Card, Searchbar } from "react-native-paper";
 
 const ListTransaksi = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -24,41 +24,40 @@ const ListTransaksi = () => {
   const [page, setPage] = React.useState<number>(0);
   const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
   const [transaksiData, setTransaksiData] = React.useState<ITransaksi[]>([]);
-  const [isLoading, setIsLoading] = React.useState(true); // State untuk mengetahui status loading
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [searchQuery, setSearchQuery] = React.useState("");
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getTransaksi(); // Panggil fungsi getTransaksi dari API
-        const fetchedTransaksiData: ITransaksi[] = response.data;
+  const fetchData = async (value?: string) => {
+    setIsLoading(true);
+    try {
+      const response = await getFilterTransaksi(value || searchQuery);
+      const fetchedTransaksiData: ITransaksi[] = response.data;
+      console.log(fetchedTransaksiData);
 
+      if (fetchedTransaksiData.length > 1) {
         fetchedTransaksiData.sort((a, b) => {
           const dateA = new Date(a.tgl_transaksi);
           const dateB = new Date(b.tgl_transaksi);
           return dateB.getTime() - dateA.getTime();
         });
-
-        setTransaksiData(fetchedTransaksiData);
-        setIsLoading(false); // Set loading menjadi false setelah data selesai diambil
-
-        // if (transaksiData) {
-        //   console.log("transaksi data", transaksiData);
-        //   transaksiData.map((data, index) => {
-        //     console.log(`data ${index} :` + JSON.stringify(data));
-        //     console.log(
-        //       `data detail transaksi untuk transaksi ke- ${index} :` +
-        //         JSON.stringify(data.DetailTransaksi)
-        //     );
-        //   });
-        // }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setIsLoading(false); // Pastikan loading dihentikan jika terjadi kesalahan
       }
-    };
 
+      setTransaksiData(fetchedTransaksiData);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleInputChange = async (value: string) => {
+    setSearchQuery(value);
+    fetchData(value);
+  };
+
+  React.useEffect(() => {
     fetchData();
-  }, []);
+  }, [searchQuery]);
 
   return (
     <>
@@ -147,6 +146,13 @@ const ListTransaksi = () => {
 
         <View style={styles.container}>
           <Text style={styles.title}>List Transaksi</Text>
+          <Searchbar
+            placeholder="masukkan invoice"
+            onChangeText={handleInputChange}
+            value={searchQuery}
+            iconColor="orange"
+            style={styles.search}
+          />
           {isLoading ? (
             <ActivityIndicator
               size="large"
@@ -154,104 +160,73 @@ const ListTransaksi = () => {
               style={{ flex: 1, marginTop: 10 }}
             />
           ) : (
+            // hi cantikk, bentar tak check dulu nggih
             <>
-              {/* <List.Section style={styles.container}> */}
-              <View style={styles.container}>
-                {transaksiData.map((item, index) => (
-                  // <List.Item
-                  //   title={item.resi}
-                  //   description={item.tgl_transaksi}
-                  //   right={() => (
-                  // <Pressable
-                  //   style={[styles.button, styles.buttonOpen]}
-                  //   // onPress={() => setModalVisible(true)}
-                  //   onPress={() => {
-                  //     setSelectedTransaction(item);
-                  //     setModalVisible(true);
-                  //   }}
-                  // >
-                  //   <Text style={styles.textStyle}>Detail</Text>
-                  // </Pressable>
-                  //   )}
-                  // />
-                  <Card style={styles.card}>
-                    <Card.Content style={styles.cardContent}>
-                      <Text style={styles.textCard}>{item.resi}</Text>
-                      <Text style={{color:"grey"}}>{item.tgl_transaksi}</Text>
-                    </Card.Content>
-                    <Card.Content >
-                      <Text>Pembeli : {item.nama_pelanggan}</Text>
-                      <Text>Kasir : {item.nama_kasir}</Text>
-
-                    </Card.Content>
-                    <Card.Actions>
-                      <Pressable
-                        style={[styles.button, styles.buttonOpen]}
-                        // onPress={() => setModalVisible(true)}
-                        onPress={() => {
-                          setSelectedTransaction(item);
-                          setModalVisible(true);
-                        }}
-                      >
-                        <Text style={styles.textStyle}>Detail</Text>
-                      </Pressable>
-                    </Card.Actions>
-                  </Card>
+              {transaksiData && // Check if transaksiData is not null or undefined
+                (Array.isArray(transaksiData) ? (
+                  transaksiData.length > 0 ? (
+                    <View style={styles.container}>
+                      {transaksiData.map((item) => (
+                        <Card key={item.id} style={styles.card}>
+                          <Card.Content style={styles.cardContent}>
+                            <Text style={styles.textCard}>{item.resi}</Text>
+                            <Text style={{ color: "grey" }}>
+                              {item.tgl_transaksi}
+                            </Text>
+                          </Card.Content>
+                          <Card.Content>
+                            <Text>Pembeli : {item.nama_pelanggan}</Text>
+                            <Text>Kasir : {item.nama_kasir}</Text>
+                          </Card.Content>
+                          <Card.Actions>
+                            <Pressable
+                              style={[styles.button, styles.buttonOpen]}
+                              onPress={() => {
+                                setSelectedTransaction(item);
+                                setModalVisible(true);
+                              }}
+                            >
+                              <Text style={styles.textStyle}>Detail</Text>
+                            </Pressable>
+                          </Card.Actions>
+                        </Card>
+                      ))}
+                    </View>
+                  ) : (
+                    <Text style={{ textAlign: "center" }}>
+                      Data transaksi tidak ditemukan
+                    </Text>
+                  )
+                ) : (
+                  // Render a single card for the object
+                  <View style={styles.container}>
+                    <Card style={styles.card}>
+                      <Card.Content style={styles.cardContent}>
+                        <Text style={styles.textCard}>
+                          {transaksiData.resi}
+                        </Text>
+                        <Text style={{ color: "grey" }}>
+                          {transaksiData.tgl_transaksi}
+                        </Text>
+                      </Card.Content>
+                      <Card.Content>
+                        <Text>Pembeli : {transaksiData.nama_pelanggan}</Text>
+                        <Text>Kasir : {transaksiData.nama_kasir}</Text>
+                      </Card.Content>
+                      <Card.Actions>
+                        <Pressable
+                          style={[styles.button, styles.buttonOpen]}
+                          onPress={() => {
+                            setSelectedTransaction(transaksiData);
+                            setModalVisible(true);
+                          }}
+                        >
+                          <Text style={styles.textStyle}>Detail</Text>
+                        </Pressable>
+                      </Card.Actions>
+                    </Card>
+                  </View>
                 ))}
-              </View>
-
-              {/* </List.Section> */}
-
-              {/* <ScrollView horizontal>
-            <DataTable>
-              <DataTable.Header>
-                <DataTable.Title style={{ paddingLeft: 0 }}>
-                  invoice
-                </DataTable.Title>
-                <DataTable.Title style={{ paddingLeft: 10 }}>
-                  Pembeli
-                </DataTable.Title>
-               
-                <DataTable.Title style={{ paddingLeft: 10 }}>
-                  Tanggal Transaksi
-                </DataTable.Title>
-                
-                <DataTable.Title style={{ paddingLeft: 10 }}>
-                  Action
-                </DataTable.Title>
-              </DataTable.Header>
-
-              {transaksiData.map((item,index) => (
-                <DataTable.Row key={index}>
-                  <DataTable.Cell style={{ paddingLeft: 0 }}>
-                    {item.resi}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={{ paddingLeft: 10 }}>
-                    {item.nama_pelanggan}
-                  </DataTable.Cell>
-                
-                  <DataTable.Cell style={{ paddingLeft: 10 }}>
-                    {item.tgl_transaksi}
-                  </DataTable.Cell>
-                 
-                  <DataTable.Cell style={{ paddingLeft: 10 }}>
-                    <Pressable
-                      style={[styles.button, styles.buttonOpen]}
-                      // onPress={() => setModalVisible(true)}
-                      onPress={() => {
-                        setSelectedTransaction(item);
-                        setModalVisible(true);
-                      }}
-                    >
-                      <Text style={styles.textStyle}>Detail</Text>
-                    </Pressable>
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))}
-
-             
-            </DataTable>
-          </ScrollView> */}
             </>
           )}
         </View>
@@ -264,7 +239,7 @@ const styles = StyleSheet.create({
   card: {
     marginVertical: 7,
     width: 300,
-    backgroundColor:"white",
+    backgroundColor: "white",
   },
   container: {
     backgroundColor: "#f0f0f0",
@@ -275,7 +250,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginTop: 10,
+    marginVertical: 10,
   },
   video: {
     width: 300,
@@ -330,13 +305,16 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   cardContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center', // Opsional, untuk penempatan vertikal jika diperlukan
-    paddingBottom:5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center", // Opsional, untuk penempatan vertikal jika diperlukan
+    paddingBottom: 5,
   },
-  textCard:{
-    fontWeight:"bold"
+  textCard: {
+    fontWeight: "bold",
+  },
+  search: {
+    backgroundColor: "white",
   },
 });
 
