@@ -19,7 +19,7 @@ const saveTransaksi = async (dataOrder) => {
     });
 
     const data = await response.json();
-    // console.log("transaksinya",data);
+    console.log("transaksinya",data);
 
     // if (response ) {
       

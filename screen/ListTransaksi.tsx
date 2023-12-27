@@ -32,7 +32,7 @@ const ListTransaksi = () => {
     try {
       const response = await getFilterTransaksi(value || searchQuery);
       const fetchedTransaksiData: ITransaksi[] = response.data;
-      console.log(fetchedTransaksiData);
+      // console.log(fetchedTransaksiData);
 
       if (fetchedTransaksiData.length > 1) {
         fetchedTransaksiData.sort((a, b) => {
@@ -160,7 +160,6 @@ const ListTransaksi = () => {
               style={{ flex: 1, marginTop: 10 }}
             />
           ) : (
-            // hi cantikk, bentar tak check dulu nggih
             <>
               {transaksiData && // Check if transaksiData is not null or undefined
                 (Array.isArray(transaksiData) ? (

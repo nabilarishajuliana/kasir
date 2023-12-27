@@ -8,6 +8,7 @@ import { Icon, MD3Colors } from 'react-native-paper';
 import { orange100 } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 
+
 // Import komponen atau library tambahan yang dibutuhkan di React Native
 
 const menuData = {
@@ -23,8 +24,10 @@ const Sidebar = () => {
   
   const { navigate } = useNavigation<NavigationProp<any>>();
 
-  const [open, setOpen] = useState(true);
+  // const [open, setOpen] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = useCoffeeCart();
+  const { open,setOpen } = useCoffeeCart(); // Menggunakan useCoffeeCart disini
+
 
 
   const handleLogout = async () => {

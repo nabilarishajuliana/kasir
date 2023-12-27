@@ -22,6 +22,7 @@ import { saveTransaksi } from "../Api/SaveTransaksi";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 
+
 function Transaksi() {
   const { cartItems } = useCoffeeCart(); 
   const { clearCartItems } = useCoffeeCart();
@@ -119,9 +120,11 @@ function Transaksi() {
         if ( response && response.code === 201) {
           setIsLoading(false)
           clearCartItems();
-          // console.log(response);
-          navigate("List");
           alert("transaksi berhasil");
+
+          // console.log(response);
+          // navigate("DetailTransaksi", { transaksiData: response.data }); // Navigasi ke halaman detail transaksi dan kirim data transaksi          alert("transaksi berhasil");
+          navigate("List"); // Navigasi ke halaman detail transaksi dan kirim data transaksi          alert("transaksi berhasil");
 
         } else {
           setIsLoading(false)

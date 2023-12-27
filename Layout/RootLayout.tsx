@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useRef } from "react";
 import {
   View,
   ScrollView,
@@ -10,11 +10,12 @@ import {
 import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import { FAB } from "react-native-paper";
-import { useCoffeeCart } from '../context/CartContext';
+import { useCoffeeCart } from "../context/CartContext";
 import ButtonFloat from "../Components/ButtonFloat";
 
+
 const RootLayout = ({ children }) => {
-  const { cartItems } = useCoffeeCart(); // Menggunakan useCoffeeCart disini
+  const { open,setOpen } = useCoffeeCart(); // Menggunakan useCoffeeCart disini
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = () => {
@@ -26,21 +27,32 @@ const RootLayout = ({ children }) => {
     }, 2000); // Contoh, tunggu 2 detik sebelum menghentikan indikator refreshing
   };
 
+  const scrollViewRef = useRef(null);
 
- 
+  const handleOutsidePress = (event) => {
+    const isInsideSidebar = event.nativeEvent.locationX < 200; // Ganti nilai 200 dengan lebar Sidebar Anda
+    if (!isInsideSidebar) {
+      setOpen(false); // Menutup Sidebar jika area di luar Sidebar ditekan
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
-        <ButtonFloat/>
+        <ButtonFloat />
         <View style={styles.container}>
           <View style={styles.sidebar}>
             <Sidebar />
           </View>
-          <ScrollView style={styles.content} contentContainerStyle={{ flexGrow: 1 }}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
+          <ScrollView
+            style={styles.content}
+            contentContainerStyle={{ flexGrow: 1 }}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            ref={scrollViewRef}
+            onTouchEnd={handleOutsidePress} // Tangani event sentuhan di ScrollView
+          >
             <Header />
             <View>{children}</View>
           </ScrollView>
@@ -79,7 +91,6 @@ const styles = StyleSheet.create({
 });
 
 export default RootLayout;
-
 
 // import React, { useEffect, useState } from 'react';
 // import { View, ScrollView, Text } from 'react-native';
