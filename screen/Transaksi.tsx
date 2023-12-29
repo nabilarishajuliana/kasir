@@ -114,17 +114,17 @@ function Transaksi() {
   
       try {
         const response = await saveTransaksi(dataOrder);
-        console.log("Response transaksi", response);
+        // console.log("Response transaksi", response);
         // console.log("data order",dataOrder)
   
         if ( response && response.code === 201) {
           setIsLoading(false)
           clearCartItems();
-          alert("transaksi berhasil");
+          // alert("transaksi berhasil");
 
           // console.log(response);
-          // navigate("DetailTransaksi", { transaksiData: response.data }); // Navigasi ke halaman detail transaksi dan kirim data transaksi          alert("transaksi berhasil");
-          navigate("List"); // Navigasi ke halaman detail transaksi dan kirim data transaksi          alert("transaksi berhasil");
+          navigate("DetailTransaksi", { transaksiData: response.data }); // Navigasi ke halaman detail transaksi dan kirim data transaksi          alert("transaksi berhasil");
+          // navigate("List"); // Navigasi ke halaman detail transaksi dan kirim data transaksi          
 
         } else {
           setIsLoading(false)

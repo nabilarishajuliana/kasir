@@ -23,7 +23,7 @@ const ListTransaksi = () => {
   const [selectedTransaction, setSelectedTransaction] = React.useState(null);
   const [page, setPage] = React.useState<number>(0);
   const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
-  const [transaksiData, setTransaksiData] = React.useState<ITransaksi[]>([]);
+  const [transaksiData, setTransaksiData] = React.useState<any>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [searchQuery, setSearchQuery] = React.useState("");
 
