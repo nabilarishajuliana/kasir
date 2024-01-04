@@ -9,7 +9,7 @@ const getTransaksi = async () => {
     // let controller  = new AbortController()
     // hi cantikk <3
     const response = await fetch(
-      `https://api-cafe-ukk.vercel.app/v1/transaksi`,
+      `https://api-cafe-v2.m3sra-kediri.my.id/v1/transaksi`,
       {
         method: "GET",
         headers: {
@@ -43,7 +43,7 @@ const getFilterTransaksi = async (key?: string) => {
     // let controller  = new AbortController()
     // hi cantikk <3
     const response = await fetch(
-      `https://api-cafe-ukk.vercel.app/v1/transaksi?resi=${key ?? ''}`,
+      `https://api-cafe-v2.m3sra-kediri.my.id/v1/transaksi?resi=${key ?? ''}`,
       {
         method: "GET",
         headers: {
@@ -77,7 +77,7 @@ const getTransaksiById = async (id: number) => {
     // let controller  = new AbortController()
     // hi cantikk <3
     const response = await fetch(
-      `https://api-cafe-ukk.vercel.app/v1/transaksi/${id}`,
+      `https://api-cafe-v2.m3sra-kediri.my.id/v1/transaksi/${id}`,
       {
         method: "GET",
         headers: {

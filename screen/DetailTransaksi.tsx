@@ -1,17 +1,24 @@
 // Halaman DetailTransaksi.js
 
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import {
   getTransaksi,
   getFilterTransaksi,
   getTransaksiById,
 } from "../Api/GetTransaksi";
-import { ITransaksi } from "../types/transaksi-types";
+import { Icon, MD3Colors } from "react-native-paper";
 
 const DetailTransaksi = ({ route }) => {
-  // Menerima data transaksi dari route.params
   const { transaksiData } = route.params;
   const { navigate } = useNavigation<NavigationProp<any>>();
   const [detail, setDetail] = React.useState<any>([]);
@@ -24,9 +31,6 @@ const DetailTransaksi = ({ route }) => {
     DetailTransaksi: [],
   });
 
-  // console.log("transaksi data", transaksiData)
-  // coba jalanin lagi transaksi datanya dapet dari page transaksinya
-
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -35,108 +39,152 @@ const DetailTransaksi = ({ route }) => {
         const response = await getTransaksiById(transaksiData.id);
         setDetail(response.data);
         console.log("detail in" + JSON.stringify(detail));
-        // bisa ngga cantikku? gabisaa gimana errornya? ituu detailnya cuman object aja?
-        setIsLoading(false); // Setelah mendapatkan data, atur isLoading menjadi false
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
-        // Handle error here
-        setIsLoading(false); // Jika terjadi kesalahan, atur isLoading menjadi false
+        setIsLoading(false);
       }
     };
 
     fetchData();
-    // console.log("detail",detail)
-    // gimana sekarang? masi tetep,sekk tak ss in
   }, [transaksiData.id]);
 
-  // Menampilkan data transaksi
   return (
-    <View>
-      <>
-        <Text style={[{ fontWeight: "bold", textAlign: "center" }]}>
-          Detail Transaksi
-        </Text>
-        <>
-          {/* Tampilkan detail transaksi jika data sudah diambil */}
-          {detail && (
-            <>
-              <Text>Invoice: {detail.resi}</Text>
-              <Text>Nama Pembeli: {detail.nama_pelanggan}</Text>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
+      <Image
+        source={require("../assets/succses_transaksi.png")} // Ganti dengan path gambar Anda
+        style={{ width: "100%", height: 200 }} // Sesuaikan ukuran gambar
+      />
 
-              <Text style={{ textAlign: "left" }}>
-                Nama Kasir: {detail.nama_kasir}
-              </Text>
-              <Text style={{ textAlign: "left" }}>
-                Tanggal Transaksi: {detail.tgl_transaksi}
-              </Text>
-              <Text style={{ textAlign: "left" }}>
-                Total: {detail.total_harga}
-              </Text>
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  borderBottomWidth: 2,
-                  paddingVertical: 10,
-                  marginBottom: 10,
-                }}
-              >
-                Pesanan:
-              </Text>
-              {detail.DetailTransaksi ? (
-                detail.DetailTransaksi.map((item, index) => (
-                  <Text key={index} style={{ textAlign: "left" }}>
-                    {"<3 "} {item.nama_menu} = {item.jumlah}
-                  </Text>
-                ))
-              ) : (
-                <Text style={{ textAlign: "left" }}>sabar</Text>
+      <View style={styles.containerBody}>
+        <View style={styles.headingContainer}>
+          <Text style={styles.heading}>Transaksi Berhasil</Text>
+          <Icon source="check-circle-outline" color="green" size={25} />
+        </View>
+                  <ScrollView>
+
+        {isLoading ? ( // Menampilkan ActivityIndicator jika isLoading true
+          <ActivityIndicator size="large" color="orange" />
+        ) : (
+            <View>
+              {detail && (
+                <>
+                  <View style={styles.container}>
+                    <View style={styles.text}>
+                      <Text style={{ textAlign: "left", fontSize: 15 }}>
+                        Invoice: {detail.resi}
+                      </Text>
+                      <Text style={{ textAlign: "left", fontSize: 15 }}>
+                        Nama Pembeli: {detail.nama_pelanggan}
+                      </Text>
+
+                      <Text style={{ textAlign: "left", fontSize: 15 }}>
+                        Nama Kasir: {detail.nama_kasir}
+                      </Text>
+                      <Text style={{ textAlign: "left", fontSize: 15 }}>
+                        Tanggal Transaksi: {detail.tgl_transaksi}
+                      </Text>
+                      <Text style={{ textAlign: "left", fontSize: 15 }}>
+                        Total: {detail.total_harga}
+                      </Text>
+                    </View>
+
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        borderBottomWidth: 2,
+                        paddingVertical: 10,
+                        marginBottom: 10,
+                        fontSize: 15,
+                      }}
+                    >
+                      Pesanan:
+                    </Text>
+                    <View style={styles.text}>
+                      {detail.DetailTransaksi ? (
+                        detail.DetailTransaksi.map((item, index) => (
+                          <Text
+                            key={index}
+                            style={{ textAlign: "left", fontSize: 15 }}
+                          >
+                            {"<3 "} {item.nama_menu} = {item.jumlah}
+                          </Text>
+                        ))
+                      ) : (
+                        <Text style={{ textAlign: "left" }}>sabar</Text>
+                      )}
+                    </View>
+                  </View>
+                </>
               )}
-              <Text style={{ marginBottom: 10 }}></Text>
-            </>
-          )}
-        </>
-      </>
+            </View>
+        )}
+          </ScrollView>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigate("List")}>
-        <Text style={{ color: "white" }}>back</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigate("List")}
+        >
+          <Text style={{ color: "white", fontWeight: "bold" }}>Kembali</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  headingContainer: {
+    alignItems: "center",
+    flexDirection: "row", // Menyusun teks dan ikon dalam satu baris
+    marginVertical: 20, // Atur margin bottom sesuai kebutuhan
+    marginHorizontal: 20,
+  },
   heading: {
     fontSize: 24,
     fontWeight: "bold",
     color: "black",
-    marginTop: 20,
-    marginBottom: 10,
     textAlign: "center",
-    borderBottomColor: "black",
-    borderBottomWidth: 2,
-    paddingBottom: 10,
-    marginHorizontal: 10,
+    // borderBottomColor: "black",
+    // borderBottomWidth: 2,
+    marginRight: 10,
   },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
+  container: {
+    marginHorizontal: 15,
+  },
+  containerBody: {
+    // borderBottomLeftRadius:20,
+    // borderBottomRightRadius:20,
+    backgroundColor: "white",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    flex: 1,
+    elevation: 15,
+    paddingTop: 5,
+    alignItems: "center",
   },
   button: {
     backgroundColor: "orange",
     alignItems: "center",
     justifyContent: "center",
+    width: "90%",
     paddingVertical: 15,
     marginVertical: 10,
     marginHorizontal: 10,
     borderRadius: 10,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
+  text: {
+    marginHorizontal: 10,
+  },
+  shadowContainer: {
+    backgroundColor: "transparent",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 10, // Tinggi bayangan yang ingin Anda tentukan
+
+    elevation: 5,
   },
 });
 

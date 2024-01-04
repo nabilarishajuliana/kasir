@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Alert,
   ScrollView,
+  StatusBar
 } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { pesertaLogin } from "../Api/Login";
@@ -58,7 +59,11 @@ const Login = ({ navigation }) => {
         navigate("Dashboard");
         setIsLoading(false);
         // const idString = JSON.stringify(response.data.user.id);
-      } else {
+      } else if (response && response.code === 500) {
+        Alert.alert("Internal Server Error", "Server sedang mengalami masalah. Silakan coba lagi nanti.");
+        setIsLoading(false);
+      }
+      else {
         Alert.alert("Gagal Login", "yang bener dong username sm passwordnya");
         setIsLoading(false);
       }
@@ -68,6 +73,8 @@ const Login = ({ navigation }) => {
   };
 
   return (
+    <>
+    <StatusBar backgroundColor="white" barStyle="dark-content" />
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={{ backgroundColor: "white", padding: 20, borderRadius: 10 }}>
         <View style={{ marginBottom: 20 }}>
@@ -122,6 +129,8 @@ const Login = ({ navigation }) => {
       </View>
       <Text style={{paddingTop:10, color:"gray",fontStyle:"italic"}}>© Nabilarisha01</Text>
     </View>
+    </>
+    
   );
 };
 

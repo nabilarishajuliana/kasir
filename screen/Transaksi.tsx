@@ -137,9 +137,9 @@ function Transaksi() {
     };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View  style={styles.container}>
       <ScrollView>
-        <Text style={styles.heading}> Data Transaksi</Text>
+        {/* <Text style={styles.heading}> Data Transaksi</Text> */}
         {/* <Divider bold ={true} style={{marginBottom:10,}} theme={{ colors: { primary: 'green' } }} /> */}
 
         <View style={{ flex: 1 }}>
@@ -339,6 +339,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  container:{
+    paddingTop:20,
+    flex: 1, 
+    backgroundColor: "white"
   },
 });
 

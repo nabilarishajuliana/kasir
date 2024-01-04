@@ -5,7 +5,7 @@ const getMeja = async (): Promise<IMeja[]> => {
   try {
     const token = await AsyncStorage.getItem('token');
 
-    const response = await fetch(`https://api-cafe-ukk.vercel.app/v1/meja?status=kosong`, {
+    const response = await fetch(`https://api-cafe-v2.m3sra-kediri.my.id/v1/meja?status=kosong`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',

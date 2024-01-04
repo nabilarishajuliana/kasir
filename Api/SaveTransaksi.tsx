@@ -8,7 +8,7 @@ const saveTransaksi = async (dataOrder) => {
     const token = await AsyncStorage.getItem("token");
 
   try { 
-    const response = await fetch(`https://api-cafe-ukk.vercel.app/v1/transaksi`, {
+    const response = await fetch(`https://api-cafe-v2.m3sra-kediri.my.id/v1/transaksi`, {
       method: 'POST',
       headers: {
         Accept: "application/json",

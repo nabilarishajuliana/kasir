@@ -8,7 +8,8 @@ import {
   ActivityIndicator,
   Button,
   BackHandler,
-  RefreshControl
+  RefreshControl,
+  SafeAreaView
 } from "react-native";
 import CardMenu from "../Components/CardMenu"; // Sesuaikan dengan struktur folder Anda
 import { IMenu } from "../types/menu-types"; // Sesuaikan dengan struktur folder Anda
@@ -110,6 +111,7 @@ const DashboardScreen = () => {
 
   return (
     <>
+    
       <RootLayout>
         <View style={styles.container}>
           <Text style={styles.heading}>List Menu</Text>
@@ -132,7 +134,7 @@ const DashboardScreen = () => {
                     : styles.menuContainerLandscape
                 }
               >
-                {dataMenu.map((menu: IMenu) => (
+                {dataMenu && dataMenu.map((menu: IMenu) => (
                   <View
                     style={orientation !== "portrait" ? styles.cardMenu : null}
                   >

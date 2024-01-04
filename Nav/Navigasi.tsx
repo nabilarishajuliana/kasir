@@ -30,36 +30,46 @@ const Nav = () => {
 
   return (
     <SafeAreaProvider>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Home" component={Login} />
-            <Stack.Screen
-              name="Dashboard"
-              component={DashboardScreen}
-              options={{
-                headerBackVisible: false, 
-              }}
-            />
-            <Stack.Screen
-              name="List"
-              component={ListTransaksi}
-              options={{
-                headerBackVisible: false, 
-              }}
-            />
-            <Stack.Screen
-              name="Transaksi"
-              component={Transaksi}
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          
+          <Stack.Screen name="Home" component={Login} />
+          <Stack.Screen
+            name="Dashboard"
+            component={DashboardScreen}
+            options={{
+              headerBackVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="List"
+            component={ListTransaksi}
+            options={{
+              headerBackVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Transaksi"
+            component={Transaksi}
+            options={{
+              headerShown: true,
+              headerTitle: "Data Transaksi",
+             
               
-            /><Stack.Screen
+            }} // Menampilkan header pada layar Dashboard
+          />
+          <Stack.Screen
             name="DetailTransaksi"
             component={DetailTransaksi}
             options={{
-              headerBackVisible: false, 
+              headerBackVisible: false,
+              headerShown: true,
+              headerTitle: "Detail Transaksi",
+              headerTitleAlign: 'center', // Memusatkan judul header
             }}
           />
-          </Stack.Navigator>
-        </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 };

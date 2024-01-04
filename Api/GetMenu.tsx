@@ -8,7 +8,7 @@ const getMenu = async (): Promise<IMenu[]> => {
     const token     = await AsyncStorage.getItem('token');
     // let controller  = new AbortController()
     // hi cantikk <3
-    const response = await fetch(`https://api-cafe-ukk.vercel.app/v1/menu`, {
+    const response = await fetch(`https://api-cafe-v2.m3sra-kediri.my.id/v1/menu`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -31,6 +31,7 @@ const responseData = await response.json();
     gambar_id: menuItem.gambar_id,
     harga: menuItem.harga,
   }));
+  console.log("result get menu api",result)
 
   return result;
     

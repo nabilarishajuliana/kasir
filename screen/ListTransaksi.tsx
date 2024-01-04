@@ -145,7 +145,7 @@ const ListTransaksi = () => {
         </View>
 
         <View style={styles.container}>
-          <Text style={styles.title}>List Transaksi</Text>
+          <Text style={styles.title}>History Transaksi</Text>
           <Searchbar
             placeholder="masukkan invoice"
             onChangeText={handleInputChange}

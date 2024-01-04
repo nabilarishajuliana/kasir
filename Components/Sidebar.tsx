@@ -14,7 +14,7 @@ import { orange100 } from "react-native-paper/lib/typescript/styles/themes/v2/co
 const menuData = {
   KASIR: [
     { title: "Menu", nav: "Dashboard" },
-    { title: "List Transaksi", nav: "List" },
+    { title: "History Transaksi", nav: "List" },
   ],
 };
 

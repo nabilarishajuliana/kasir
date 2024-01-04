@@ -38,7 +38,7 @@ const BASE_URL = 'https://api-cafe-ukk.vercel.app/v1';
 
 const pesertaLogin = async (username: any, password: any) => {
   try {
-    const response = await fetch(`https://api-cafe-ukk.vercel.app/v1/user/login`, {
+    const response = await fetch(`https://api-cafe-v2.m3sra-kediri.my.id/v1/user/login`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
