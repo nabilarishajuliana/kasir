@@ -13,8 +13,8 @@ import { orange100 } from "react-native-paper/lib/typescript/styles/themes/v2/co
 
 const menuData = {
   KASIR: [
-    { title: "Menu", nav: "Dashboard" },
-    { title: "History Transaksi", nav: "List" },
+    { title: "Menu", nav: "Dashboard", name:"shopping-outline" },
+    { title: "History Transaksi", nav: "List", name:"clipboard-list-outline" },
   ],
 };
 
@@ -112,7 +112,7 @@ const Sidebar = () => {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              paddingVertical: 10,
+              paddingVertical: 15,
               // borderBottomWidth: 1,
               // borderBottomColor: "lightgrey", // Sesuaikan dengan warna yang diinginkan
             }}
@@ -123,7 +123,18 @@ const Sidebar = () => {
               source={menu.icon}
               style={{ width: 20, height: 20, marginRight: 10 }}
             /> */}
-            {open && <Text>{menu.title}</Text>}
+            {open && 
+            <>
+            <Icon
+      source={menu.name}
+      color={MD3Colors.neutral0}
+      size={25}
+      
+    />
+            <Text> {menu.title}</Text>
+
+            </>
+            }
           </TouchableOpacity>
         ))}
       </View>

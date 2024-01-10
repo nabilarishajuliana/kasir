@@ -7,6 +7,7 @@ import {
   Modal,
   Alert,
   ActivityIndicator,
+  TouchableOpacity
 } from "react-native";
 import { getTransaksi, getFilterTransaksi } from "../Api/GetTransaksi";
 import { ITransaksi } from "../types/transaksi-types";
@@ -17,6 +18,9 @@ import * as React from "react";
 import { DataTable } from "react-native-paper";
 // import { Col, Row, Grid } from "react-native-easy-grid";
 import { List, Card, Searchbar } from "react-native-paper";
+import { useCoffeeCart } from "../context/CartContext";
+import * as Animatable from 'react-native-animatable';
+
 
 const ListTransaksi = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -26,6 +30,8 @@ const ListTransaksi = () => {
   const [transaksiData, setTransaksiData] = React.useState<any>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [searchQuery, setSearchQuery] = React.useState("");
+  const {refreshing, setRefreshing}= useCoffeeCart()
+
 
   const fetchData = async (value?: string) => {
     setIsLoading(true);
@@ -59,6 +65,29 @@ const ListTransaksi = () => {
     fetchData();
   }, [searchQuery]);
 
+  React.useEffect(() => {
+    
+    if (refreshing) {
+      setIsLoading(true); 
+      fetchData();
+      setRefreshing(false); 
+    }  
+  }, [refreshing]);
+
+  const Overlay = () => {
+    return (
+      <TouchableOpacity
+        style={[
+          styles.overlay,
+          { display: modalVisible ? "flex" : "none" }, // Tampilkan overlay hanya saat modal terlihat
+        ]}
+        onPress={() => setModalVisible(false)}
+      >
+        <View style={styles.overlayBackground} />
+      </TouchableOpacity>
+    );
+  };
+  
   return (
     <>
       <RootLayout>
@@ -68,7 +97,6 @@ const ListTransaksi = () => {
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-              Alert.alert("Modal has been closed.");
               setModalVisible(!modalVisible);
             }}
           >
@@ -143,7 +171,7 @@ const ListTransaksi = () => {
             {/* </ScrollView> */}
           </Modal>
         </View>
-
+        <Overlay />
         <View style={styles.container}>
           <Text style={styles.title}>History Transaksi</Text>
           <Searchbar
@@ -166,6 +194,11 @@ const ListTransaksi = () => {
                   transaksiData.length > 0 ? (
                     <View style={styles.container}>
                       {transaksiData.map((item) => (
+                        <Animatable.View
+                        key={item.id}
+                        animation="zoomIn" // Animasi yang digunakan
+                        duration={500} // Durasi animasi
+                      >
                         <Card key={item.id} style={styles.card}>
                           <Card.Content style={styles.cardContent}>
                             <Text style={styles.textCard}>{item.resi}</Text>
@@ -189,6 +222,8 @@ const ListTransaksi = () => {
                             </Pressable>
                           </Card.Actions>
                         </Card>
+                      </Animatable.View>
+                        
                       ))}
                     </View>
                   ) : (
@@ -314,6 +349,24 @@ const styles = StyleSheet.create({
   },
   search: {
     backgroundColor: "white",
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1,
+  },
+  overlayBackground: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
 

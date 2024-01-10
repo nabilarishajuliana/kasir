@@ -57,15 +57,17 @@ const DetailTransaksi = ({ route }) => {
       />
 
       <View style={styles.containerBody}>
-        <View style={styles.headingContainer}>
-          <Text style={styles.heading}>Transaksi Berhasil</Text>
-          <Icon source="check-circle-outline" color="green" size={25} />
+        <View style={{ alignItems: "center" }}>
+          <View style={styles.headingContainer}>
+            <Text style={styles.heading}>Transaksi Berhasil</Text>
+            <Icon source="check-circle-outline" color="green" size={25} />
+          </View>
         </View>
-                  <ScrollView>
 
-        {isLoading ? ( // Menampilkan ActivityIndicator jika isLoading true
-          <ActivityIndicator size="large" color="orange" />
-        ) : (
+        <ScrollView>
+          {isLoading ? ( // Menampilkan ActivityIndicator jika isLoading true
+            <ActivityIndicator size="large" color="orange" />
+          ) : (
             <View>
               {detail && (
                 <>
@@ -85,7 +87,7 @@ const DetailTransaksi = ({ route }) => {
                         Tanggal Transaksi: {detail.tgl_transaksi}
                       </Text>
                       <Text style={{ textAlign: "left", fontSize: 15 }}>
-                        Total: {detail.total_harga}
+                        Total: {detail.total_harga.toLocaleString("id-ID")}
                       </Text>
                     </View>
 
@@ -119,8 +121,8 @@ const DetailTransaksi = ({ route }) => {
                 </>
               )}
             </View>
-        )}
-          </ScrollView>
+          )}
+        </ScrollView>
 
         <TouchableOpacity
           style={styles.button}
@@ -161,13 +163,12 @@ const styles = StyleSheet.create({
     flex: 1,
     elevation: 15,
     paddingTop: 5,
-    alignItems: "center",
+    // alignItems: "center",
   },
   button: {
     backgroundColor: "orange",
     alignItems: "center",
     justifyContent: "center",
-    width: "90%",
     paddingVertical: 15,
     marginVertical: 10,
     marginHorizontal: 10,

@@ -22,6 +22,10 @@ type CoffeeCartContext = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  refreshing: boolean;
+  setRefreshing: React.Dispatch<React.SetStateAction<boolean>>;
+  modalVisible: boolean;
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
   clearCartItems: () => void;
   
 };
@@ -38,6 +42,8 @@ export const CoffeeCartProvider: React.FC<CoffeeCartProviderProps> = ({
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // buat login
   const [open, setOpen] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [modalVisible, setModalVisible] = React.useState(false);
 
 
  
@@ -108,7 +114,11 @@ export const CoffeeCartProvider: React.FC<CoffeeCartProviderProps> = ({
         setIsLoggedIn,
         clearCartItems,
         open,
-        setOpen
+        setOpen,
+        setRefreshing,
+        refreshing,
+        modalVisible, 
+        setModalVisible
       }}
     >
       {children}

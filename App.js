@@ -30,12 +30,10 @@ export default function App() {
 
   return (
     <>
-    <PaperProvider>
       <CoffeeCartProvider>
         
           <Nav />
       </CoffeeCartProvider>
-    </PaperProvider>
         
       
     </>

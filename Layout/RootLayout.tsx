@@ -1,4 +1,4 @@
-import React, { useState ,useRef } from "react";
+import React, { useState ,useRef, useEffect} from "react";
 import {
   View,
   ScrollView,
@@ -16,15 +16,17 @@ import ButtonFloat from "../Components/ButtonFloat";
 
 const RootLayout = ({ children }) => {
   const { open,setOpen } = useCoffeeCart(); // Menggunakan useCoffeeCart disini
-  const [refreshing, setRefreshing] = useState(false);
+  const {refreshing, setRefreshing}= useCoffeeCart()
+  const [showOverlay, setShowOverlay] = useState(false); // State untuk menampilkan overlay
 
   const onRefresh = () => {
     // Logika refresh, misalnya:
     setRefreshing(true);
     // Lakukan operasi refresh di sini, kemudian set refreshing menjadi false ketika selesai
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000); // Contoh, tunggu 2 detik sebelum menghentikan indikator refreshing
+    
+    // setTimeout(() => {
+    //   setRefreshing(false);
+    // }, 5000); // Contoh, tunggu 2 detik sebelum menghentikan indikator refreshing
   };
 
   const scrollViewRef = useRef(null);
@@ -33,14 +35,27 @@ const RootLayout = ({ children }) => {
     const isInsideSidebar = event.nativeEvent.locationX < 200; // Ganti nilai 200 dengan lebar Sidebar Anda
     if (!isInsideSidebar) {
       setOpen(false); // Menutup Sidebar jika area di luar Sidebar ditekan
+      setShowOverlay(false);
     }
   };
+
+  useEffect(() => {
+    setShowOverlay(open); // Menggunakan useEffect untuk mengubah showOverlay
+  }, [open]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
         <ButtonFloat />
         <View style={styles.container}>
+        {showOverlay && ( // Menggunakan showOverlay untuk menampilkan overlay
+            <TouchableOpacity
+              style={styles.overlay}
+              onPress={() => {
+                setOpen(false);
+              }}
+            />
+          )}
           <View style={styles.sidebar}>
             <Sidebar />
           </View>
@@ -87,6 +102,15 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: 2,
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: 1,
   },
 });
 

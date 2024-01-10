@@ -31,7 +31,7 @@ const responseData = await response.json();
     gambar_id: menuItem.gambar_id,
     harga: menuItem.harga,
   }));
-  console.log("result get menu api",result)
+  // console.log("result get menu api",result)
 
   return result;
     
