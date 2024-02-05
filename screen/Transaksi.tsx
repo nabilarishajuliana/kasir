@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import { TextInput, Divider } from "react-native-paper";
 import { useCoffeeCart } from "../context/CartContext";
@@ -21,10 +22,8 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { saveTransaksi } from "../Api/SaveTransaksi";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-
-
 function Transaksi() {
-  const { cartItems } = useCoffeeCart(); 
+  const { cartItems } = useCoffeeCart();
   const { clearCartItems } = useCoffeeCart();
   // Menggunakan useCoffeeCart disini
   const [menu, setMenu] = React.useState<IMenu[] | null>(null);
@@ -37,12 +36,11 @@ function Transaksi() {
     status: "lunas",
     tgl_transaksi: new Date().toISOString().split("T")[0],
     userId: 0,
-    mejaId: 0,
+    mejaId: 7,
     detailTransaksi: cartItems,
   });
   const { navigate } = useNavigation<NavigationProp<any>>();
   const [isLoading, setIsLoading] = useState(false);
-
 
   // const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | IndexPath[]>([]);
   // const [value, setValue] = React.useState("first");
@@ -51,16 +49,16 @@ function Transaksi() {
 
   useEffect(() => {
     // Mengambil data dari AsyncStorage saat komponen di-mount
-    AsyncStorage.getItem('id')
-      .then(value => {
+    AsyncStorage.getItem("id")
+      .then((value) => {
         if (value !== null) {
-          handleChange(parseInt(value), "userId") // Menyimpan nilai ke state  
+          handleChange(parseInt(value), "userId"); // Menyimpan nilai ke state
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
-      console.log("order data",dataOrder )
+    console.log("order data", dataOrder);
   }, []);
 
   useEffect(() => {
@@ -77,8 +75,6 @@ function Transaksi() {
     fetchData();
     fetchDataMeja();
     // console.log("select id meja", selected);
-
-   
   }, []);
 
   let totalSemua = 0;
@@ -106,38 +102,36 @@ function Transaksi() {
         key: meja.id, // Sesuaikan dengan tipe data yang diperlukan
         value: meja.nomor_meja,
       }))
-    : ({disabled:meja===null});
+    : { disabled: meja === null };
 
+  const handleSubmit = async () => {
+    setIsLoading(true);
 
-    const handleSubmit  = async () => {
-      setIsLoading(true)
-  
-      try {
-        const response = await saveTransaksi(dataOrder);
-        // console.log("Response transaksi", response);
-        // console.log("data order",dataOrder)
-  
-        if ( response && response.code === 201) {
-          setIsLoading(false)
-          clearCartItems();
-          // alert("transaksi berhasil");
+    try {
+      const response = await saveTransaksi(dataOrder);
+      // console.log("Response transaksi", response);
+      // console.log("data order",dataOrder)
 
-          // console.log(response);
-          navigate("DetailTransaksi", { transaksiData: response.data }); // Navigasi ke halaman detail transaksi dan kirim data transaksi          alert("transaksi berhasil");
-          // navigate("List"); // Navigasi ke halaman detail transaksi dan kirim data transaksi          
+      if (response && response.code === 201) {
+        setIsLoading(false);
+        clearCartItems();
+        // alert("transaksi berhasil");
 
-        } else {
-          setIsLoading(false)
+        // console.log(response);
+        navigate("DetailTransaksi", { transaksiData: response.data }); // Navigasi ke halaman detail transaksi dan kirim data transaksi          alert("transaksi berhasil");
+        // navigate("List"); // Navigasi ke halaman detail transaksi dan kirim data transaksi
+      } else {
+        setIsLoading(false);
 
-          alert("Gagal transaksi");
-        }
-      } catch (error) {
-        // console.log(error);
+        alert("Gagal transaksi");
       }
-    };
+    } catch (error) {
+      // console.log(error);
+    }
+  };
 
   return (
-    <View  style={styles.container}>
+    <View style={styles.container}>
       <ScrollView>
         {/* <Text style={styles.heading}> Data Transaksi</Text> */}
         {/* <Divider bold ={true} style={{marginBottom:10,}} theme={{ colors: { primary: 'green' } }} /> */}
@@ -165,43 +159,17 @@ function Transaksi() {
               marginBottom: 20,
               marginTop: 10,
               borderRadius: 30,
-              color:"black"
+              color: "black",
             }}
             outlineStyle={{ borderRadius: 10 }}
           />
 
-          <View style={{ marginHorizontal: 15, marginBottom: 20 }}>
+          {/* <View style={{ marginHorizontal: 15, marginBottom: 20 }}>
             <Text style={{ marginBottom: 10, fontWeight: "500", fontSize: 15 }}>
               Pilih Meja :
             </Text>
 
-            {/* <PaperSelect
-              label="Select Gender"
-              value={gender.value}
-              onSelection={(value: any) => {
-                setGender({
-                  ...gender,
-                  value: value.text,
-                  selectedList: value.selectedList,
-                  error: "",
-                });
-              }}
-              arrayList={[...gender.list]}
-              selectedArrayList={gender.selectedList}
-              errorText={gender.error}
-              multiEnable={false}
-              dialogTitleStyle={{ color: "red" }}
-              // checkboxColor="yellow"
-              // checkboxLabelStyle={{ color: 'red', fontWeight: '700' }}
-              // textInputBackgroundColor="yellow"
-              // textInputColor="red"
-              // outlineColor="black"
-              theme={{
-                colors: {
-                  placeholder: "black",
-                },
-              }}
-            /> */}
+            
 
             <SelectList
               setSelected={(value) => handleChange(value, "mejaId")}
@@ -210,9 +178,9 @@ function Transaksi() {
               boxStyles={{ borderColor: "orange" }}
               search={false} 
             />
-          </View>
+          </View> */}
           <Text
-            style={{ 
+            style={{
               // fontSize: 22,
               // fontWeight: "bold",
               // color: "black",
@@ -251,37 +219,39 @@ function Transaksi() {
             );
           })} */}
 
-{cartItems.length === 0 ? (
-    <ActivityIndicator size="large" color="orange" />
-  ) : (
-    <>
-      
-      {cartItems.map((item, index) => {
-        const menuItem = menu?.find((m) => m.id === item.menuId);
-        if (!menuItem) {
-          return null;
-        }
+          {cartItems.length === 0 ? (
+            <ActivityIndicator size="large" color="orange" />
+          ) : (
+            <>
+              {cartItems.map((item, index) => {
+                const menuItem = menu?.find((m) => m.id === item.menuId);
+                if (!menuItem) {
+                  return null;
+                }
 
-        const totalHargaItem = item.jumlah * item.harga;
-        totalSemua += totalHargaItem;
+                const totalHargaItem = item.jumlah * item.harga;
+                totalSemua += totalHargaItem;
 
-        return (
-          <ListItem key={index}>
-            <ListItem.Content>
-              <ListItem.Title style={{ fontSize: 14 }}>
-                {menuItem.nama_menu}
-              </ListItem.Title>
-              <ListItem.Subtitle>
-                Qty: {item.jumlah} , Harga: Rp
-                {totalHargaItem.toLocaleString("id-ID")}
-              </ListItem.Subtitle>
-            </ListItem.Content>
-          </ListItem>
-        );
-      })}
-    </>
-  )}
-
+                return (
+                  <ListItem key={index}>
+                    <Image
+                      source={{ uri: menuItem.gambar }} // Ganti dengan path gambar Anda
+                      style={{ width: 80, height: 80 }} // Sesuaikan ukuran gambar
+                    />
+                    <ListItem.Content>
+                      <ListItem.Title style={{ fontSize: 14 }}>
+                        {menuItem.nama_menu}
+                      </ListItem.Title>
+                      <ListItem.Subtitle>
+                        Qty: {item.jumlah} , Harga: Rp
+                        {totalHargaItem.toLocaleString("id-ID")}
+                      </ListItem.Subtitle>
+                    </ListItem.Content>
+                  </ListItem>
+                );
+              })}
+            </>
+          )}
         </View>
       </ScrollView>
       <ListItem>
@@ -296,11 +266,11 @@ function Transaksi() {
       </ListItem>
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-      {isLoading ? (
-            <ActivityIndicator color="white" />
-          ) : (
-            <Text style={{ color: "white" }}>submit</Text>
-          )}
+        {isLoading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Text style={{ color: "white" }}>submit</Text>
+        )}
       </TouchableOpacity>
     </View>
   );
@@ -340,10 +310,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  container:{
-    paddingTop:20,
-    flex: 1, 
-    backgroundColor: "white"
+  container: {
+    paddingTop: 20,
+    flex: 1,
+    backgroundColor: "white",
   },
 });
 

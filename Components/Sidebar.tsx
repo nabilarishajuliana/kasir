@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCoffeeCart } from "../context/CartContext";
 import { Icon, MD3Colors } from 'react-native-paper';
 import { orange100 } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+import { useRoute } from "@react-navigation/native";
 
 
 
@@ -14,7 +15,7 @@ import { orange100 } from "react-native-paper/lib/typescript/styles/themes/v2/co
 const menuData = {
   KASIR: [
     { title: "Menu", nav: "Dashboard", name:"shopping-outline" },
-    { title: "History Transaksi", nav: "List", name:"clipboard-list-outline" },
+    { title: "History Transaksi", nav: "List", name:"history" },
   ],
 };
 
@@ -28,7 +29,10 @@ const Sidebar = () => {
   const { isLoggedIn, setIsLoggedIn } = useCoffeeCart();
   const { open,setOpen } = useCoffeeCart(); // Menggunakan useCoffeeCart disini
 
+  const route = useRoute();
 
+  // Contoh: Mendapatkan nama rute saat ini
+  const currentRouteName = route.name;
 
   const handleLogout = async () => {
     try {
@@ -112,11 +116,11 @@ const Sidebar = () => {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              paddingVertical: 15,
+              paddingVertical: 8,
               // borderBottomWidth: 1,
               // borderBottomColor: "lightgrey", // Sesuaikan dengan warna yang diinginkan
             }}
-            onPress={() => navigate(menu.nav)}
+            onPress={() => {navigate(menu.nav) ,setOpen(!open)}}
             // Implementasikan navigasi ke halaman yang sesuai saat menu ditekan
           >
             {/* <Image
@@ -125,13 +129,16 @@ const Sidebar = () => {
             /> */}
             {open && 
             <>
-            <Icon
+            <View style={{ borderLeftColor: currentRouteName === menu.nav ? 'orange' : 'white',flexDirection:"row",width:"100%",padding:7,borderLeftWidth:5 }}>
+              <Icon
       source={menu.name}
-      color={MD3Colors.neutral0}
+      color={'black'}
       size={25}
       
     />
-            <Text> {menu.title}</Text>
+            <Text > {menu.title}</Text>
+            </View>
+            
 
             </>
             }

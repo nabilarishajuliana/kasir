@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   container: {
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "white",
     paddingVertical: 20,
     paddingHorizontal: 10,
     alignItems: "center",
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   search: {
-    backgroundColor: "white",
+    backgroundColor: "#f0f0f0",
   },
   overlay: {
     position: "absolute",

@@ -24,6 +24,7 @@ import { Icon } from "react-native-paper";
 import { useCoffeeCart } from "../context/CartContext";
 import * as Animatable from "react-native-animatable";
 import Overlay from "../Components/Overlay";
+import Slide from "../Components/Carousel";
 
 const DashboardScreen = () => {
   const [orientation, setOrientation] = useState("portrait"); // State untuk mengetahui orientasi layar
@@ -33,6 +34,15 @@ const DashboardScreen = () => {
   const { refreshing, setRefreshing } = useCoffeeCart();
   const {modalVisible, setModalVisible} = useCoffeeCart();
   const [selectedTransaction, setSelectedTransaction] = React.useState(0);
+
+  const items = [
+    'https://static1.squarespace.com/static/5a5dbe4632601eb31977f947/5a5dbe9653450ab899649d1f/62fb321d8e7ca70722113aa3/1660630864601/Diskon-Merdeka_Landscape.jpg?format=1500w',
+    'https://duniaperiklanan.id/wp-content/uploads/2023/02/Iklan-Produk-Makanan-Mcd-1024x536.jpeg',
+    'https://cdn-oss.ginee.com/official/wp-content/uploads/2023/03/image-106.png',
+    'https://i.ytimg.com/vi/QHG1Q1qvSfw/maxresdefault.jpg',
+    'https://cdn-oss.ginee.com/official/wp-content/uploads/2021/12/image-1934-1024x576.png',
+    'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/healthy-food-restaurant-banner-design-template-5d8526f015d6a01027536b17714b98d3_screen.jpg?ts=1662349433',
+  ]; // Ganti dengan item-item yang diinginkan
 
   const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity } =
     useCoffeeCart();
@@ -274,8 +284,11 @@ const DashboardScreen = () => {
 
         
          <Overlay />
+          <Slide items={items}/>
 
         <View >
+
+
           <View style={styles.container}>
           <Text style={styles.heading}>LIST MENU</Text>
           {/* <Button title="Reload App" onPress={handleAppReload} /> */}
@@ -331,9 +344,7 @@ const DashboardScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  back:{
-    backgroundColor:"black",
-  },
+  
   container: {
     flex: 1,
     padding: 20,
@@ -349,14 +360,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
 
-  cardMenu: {
-    // width: "45%", // Menyesuaikan ukuran lebar card
-    // margin: "2%", // Memberikan jarak antar card
-    // aspectRatio: 1, // Memastikan setiap card memiliki aspek rasio yang sama (contohnya 1:1)
-    // borderColor: "#DDD", // Warna border card (opsional)
-    // borderRadius: 8, // Memberikan sudut bulat pada card (opsional)
-    // padding: 10, // Memberikan padding pada card (opsional)
-  },
   menuContainerPortrait: {
     flexDirection: "column",
   },

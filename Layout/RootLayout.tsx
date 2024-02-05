@@ -81,6 +81,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
+    backgroundColor:"white"
+
   },
   sidebar: {
     flex: 1,

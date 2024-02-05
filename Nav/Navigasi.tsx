@@ -9,6 +9,8 @@ import DashboardScreen from "../screen/Dashboard";
 import ListTransaksi from "../screen/ListTransaksi";
 import Transaksi from "../screen/Transaksi";
 import DetailTransaksi from "../screen/DetailTransaksi";
+import Profile from "../screen/Profile";
+import UpdateProfile from "../screen/UpdateProfile";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { OrientationLock } from "expo-screen-orientation";
 import * as ScreenOrientation from "expo-screen-orientation";
@@ -65,6 +67,24 @@ const Nav = () => {
               headerBackVisible: false,
               headerShown: true,
               headerTitle: "Detail Transaksi",
+              headerTitleAlign: 'center', // Memusatkan judul header
+            }}
+          />
+          <Stack.Screen
+            name="Profile"
+            component={Profile}
+            options={{
+              headerShown: true,
+              headerTitle: "Profile",
+              headerTitleAlign: 'center', // Memusatkan judul header
+            }}
+          />
+          <Stack.Screen
+            name="UpdateProfile"
+            component={UpdateProfile}
+            options={{
+              headerShown: true,
+              headerTitle: "Update",
               headerTitleAlign: 'center', // Memusatkan judul header
             }}
           />
